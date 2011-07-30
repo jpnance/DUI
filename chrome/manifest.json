@@ -2,5 +2,14 @@
 	"name": "Dynasty User Interface",
 	"version": "0.1",
 
-	"description": "Dynasty league stuff"
+	"description": "Dynasty league stuff",
+
+	"content_scripts": [
+		{
+			"matches": [
+				"file://*/test/clubhouse.html"
+			],
+			"js": ["dui.js"]
+		}
+	]
 }

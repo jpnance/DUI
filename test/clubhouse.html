@@ -1,0 +1,1292 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+<head> 
+<title>Austin Stories - Free Fantasy Football -  ESPN</title> 
+<!-- Page Served by Machine N7ESPNAPP241.mgmt.prod on Port 2775 --> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+<meta http-equiv="Content-Script-Type" content="text/javascript"> 
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"> 
+<meta http-equiv="Pragma" content="no-cache"> 
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate, proxy-revalidate, maxage=0"> 
+<meta http-equiv="Expires" content="-1"> 
+ 
+ 
+		<script type="text/javascript"> 
+		/* omniture ad tracking v0.1 24Jun08 */
+		var anAds;
+		anAds="";
+		function anPassAds(str) {
+			anAds=anAds?anAds+",ads;"+str+";;;event38=1":"ads;"+str+";;;event38=1";
+		}
+		</script> 
+<link rel="stylesheet" href="http://a.espncdn.com/combiner/c?css=fantasy_reset.r1.css,base.r234.css,modules.r422.css,global_header.r38.css,modules/global_nav.r47.css,modules/insider_enhanced.200910131831.css,registration/facebook.button.v2.css,registration/v3_1.facebook.v2.css,modules/browser-alert.r7.css" type="text/css" media="screen" charset="utf-8"> 
+<link rel="stylesheet" href="http://a.espncdn.com/combiner/c?css=espn.teams.r3.css" type="text/css" media="screen" charset="utf-8"> 
+<style type="text/css"> 
+#content{width:990px !important;}
+#header{width:990px !important;}
+#nav-wrapper-container{width:990px !important;}
+#nav-main ul.top li .wrapper{width:984px !important;}
+#content.container { padding: 0; }
+</style> 
+<style type="text/css"> 
+</style> 
+
+<link rel="stylesheet" type="text/css" href="http://g.espncdn.com/ffl/static/css/main?v=53591111711"> 
+<link rel="stylesheet" type="text/css" href="http://g.espncdn.com/ffl/static/css/everyDay?v=22"> 
+<script type="text/javascript" src="http://g.espncdn.com/libs/jquery/1.4.2/jquery.min.jsonpfix.js"></script> 
+<script type="text/javascript" src="http://g.espncdn.com/libs/jqueryui/1.8.4/jquery-ui.min.js"></script> 
+<script type="text/javascript" src="http://g.espncdn.com/libs/swfobject/2.2/swfobject.js"></script> 
+<script type="text/javascript" charset="iso-8859-1" src="http://a.espncdn.com/combiner/c/?js=plugins/json2.r3.js,plugins/teacrypt.js,plugins/jquery.metadata.js,plugins/jquery.bgiframe.js,plugins/jquery.easing.1.3.js,plugins/jquery.hoverIntent.js,plugins/jquery.jcarousel.js,plugins/jquery.tinysort.r3.js,plugins/jquery.pubsub.r5.js,plugins/ba-debug-0.4.js,espn.l10n.r10.js,flashObjWrapper.r7.js,espn.core.duo.r52.js,stub.search.r6.js,espn.nav.mega.r32.js,espn.storage.r6.js,espn.p13n.r14.js,espn.video.r30.js,registration/staticLogin.r10-14.js,registration/espn.overlay.stub.r3-14.js,espn.insider.r5.js,espn.espn360.stub.r9.js,espn.myHeadlines.stub.r4.js,espn.gallery.0628.js"></script> 
+<script type="text/javascript" src="http://g.espncdn.com/libs/prototype/1.6.0.2/prototype.js"></script> 
+<script type="text/javascript"> 
+ 
+com = { espn: {
+	env: {
+		av: navigator.appVersion,
+		ua: navigator.userAgent,
+		an: navigator.appName,
+		platform: navigator.platform,
+		IE: "Microsoft Internet Explorer",
+		NS: "Netscape",
+		MAC: "MacPPC",
+ 
+		host: "games.espn.go.com",
+		context: "clubhouse"
+	},
+	listeners: {},
+	games: {
+		gameRoot: "ffl",
+		leagueId: 122885,
+		seasonId: 2011,
+		toTeamId: 1,
+		fromTeamId: 1,
+		scoringPeriodId: 1,
+		currentScoringPeriodId: 1,
+		leagueType: 0
+	}
+}};
+ 
+com.espn.games.isLeagueManager = true;com.espn.games.isLeagueCreator = true;com.espn.games.isLeagueMember = true;com.espn.games.userLoggedIn = false;com.espn.games.username = 'arsixsixwy';
+var GAMEROOT = "ffl";var host = "games.espn.go.com";var gameRoot = "ffl";var leagueId = 122885;var teamId = 1;</script><script type="text/javascript" src="http://g.espncdn.com/ffl/static/js/libraries?v=11
+ 
+function players(navParams) {
+	
+	var spinnerEl = $("playerTableTabSpinner"); 
+	if (spinnerEl) spinnerEl.show(); 
+	var realtimeScoringDiv = $('realtimeScoringTools'); 
+	var usingPnc = typeof rosterManager != "undefined"; 
+ 
+	var params = navParams.split("&"); 
+	var scoringPeriodId = null; 
+	var containerId = "playerTableContainerDiv"; 
+	var inAjaxPath = null; 
+	var pCompareHighlight = false; 
+	for (var i = 0; i < params.length; i++) { 
+		var paramArr = params[i].split("="); 
+		var key = paramArr[0]; 
+		if (key == "containerId" && paramArr[1] != "null") { 
+			containerId = paramArr[1];	
+		} else if (key == "scoringPeriodId") { 
+			scoringPeriodId = parseInt(paramArr[1]); 
+			if (realtimeScoringDiv) { 
+				parseInt(paramArr[1]) == com.espn.games.currentScoringPeriodId ? realtimeScoringDiv.show() : realtimeScoringDiv.hide(); 
+			} 
+		} else if (key == "ajaxPath") { 
+			inAjaxPath = paramArr[1]; 
+		} else if (key == "highlightForComparePlayers" && paramArr[1] == "true") { 
+			pCompareHighlight = true; 
+		} 
+	} 
+	
+	var ajaxPath = (inAjaxPath ? inAjaxPath : 'playertable/prebuilt/'+com.espn.env.context.replace('_', '/')); 
+	
+	if (typeof ajaxFilterUpdater != 'undefined' && typeof ajaxFilterUpdater.handleNewParams == "function" && ajaxFilterUpdater.containerId == containerId) { 
+		ajaxFilterUpdater.handleNewParams(navParams); 
+	} 
+	
+	var _complete = function(t) { 
+			
+		try { com.espn.games.PopPlayerCard.instance.addToOldSchoolLinks(); } catch(e) {}; 
+		
+		if (usingPnc) { 
+			var responseScripts = t.responseText.extractScripts(); 
+			if (scoringPeriodId != null && scoringPeriodId != rosterManager.scoringPeriodId) { 
+				rosterManager.updateScoringPeriodId(scoringPeriodId, responseScripts); 
+			} else { 
+				rosterManager.tabChange(responseScripts); 
+			} 
+		} 
+		if (spinnerEl) spinnerEl.hide(); 
+		if (chooser) { chooser.isOpen = false; chooser.getObjs(); } 
+		if (pCompareHighlight == true) { 
+			comparePlayersManager.highlightStats(); 
+			compareSearchObj = null; 
+			playerSuggesterCompare = null; 
+			compareSearchObj = new Object(); 
+			compareSearchObj.varName = "playerSuggesterCompare"; 
+			compareSearchObj.suggestDiv = "compare_playerSuggestions"; 
+			compareSearchObj.inputField = "compare_playerName"; 
+			compareSearchObj.cssPrefix = "compare_"; 
+			playerSuggesterCompare = new PlayerSuggester(compareSearchObj); 
+		} 
+	} 
+	var url = "http://" + host + "/" + gameRoot + "/" + ajaxPath + "?" + navParams + noCache(); 
+ 
+	var target = containerId; 
+	
+	var confirmed = true; 
+	if (usingPnc && scoringPeriodId != null && scoringPeriodId != rosterManager.scoringPeriodId) confirmed = rosterManager.rosterSaver.confirmScoringPeriodChange(); 
+		
+	if (confirmed) new Ajax.Updater(target, url, {method:'post', onComplete: _complete, evalScripts: false}); 
+	else if (spinnerEl) spinnerEl.hide(); 
+} 
+ 
+function noCache() { 
+	return "&r=" + Math.round(Math.random() * 99999999);
+}
+ 
+function togglePlayerTableHiddenGroups() {
+	jQuery('div.playerTableShowHideGroupLink').toggle();
+	jQuery('table.playerTableTable.hideableGroup,div.boxscoreDangler.hideableGroup').toggle();
+}
+ 
+// CONTROL PLAYER NEWS TOGGLE
+var toggleRosterViewPNI = function(playerId) {
+	if ($('pnews_'+playerId)) {
+		if ($('pnews_'+playerId).hasClassName('pni-rosterview-closed') && $('pnews_'+playerId).firstDescendant().hasClassName("hand")) { 
+			$('pnews_'+playerId).removeClassName('pni-rosterview-closed'); 
+		} else { 
+			$('pnews_'+playerId).addClassName('pni-rosterview-closed'); 
+		} 
+	} 
+} 
+ 
+ 
+ 
+function findPos(obj) { 
+	var curleft = curtop = 0; 
+	if (obj.offsetParent) { 
+		curleft = obj.offsetLeft 
+		curtop = obj.offsetTop 
+		while (obj = obj.offsetParent) { 
+			curleft += obj.offsetLeft 
+			curtop += obj.offsetTop 
+		} 
+	} 
+	return [curleft,curtop]; 
+} 
+ 
+StatChooser = Class.create(); 
+ 
+StatChooser.prototype = { 
+ 
+	isOpen: false, 
+	chooserDiv: null, 
+	chooserLink: null, 
+	inputs: null, 
+	
+	initialize: function() { }, 
+	
+	updateCookie: function(playerParams) { 
+		var pipe = ""; 
+		var statIdsToShow = ""; 
+		
+		this.inputs = this.chooserDiv.getElementsByTagName('input'); 
+	
+		var showAverages = null, showRotoLine = null; 
+		if (this.inputs) { 
+			for (var i=0; i < this.inputs.length; i++) { 
+				var thisEl = this.inputs[i]; 
+				if (thisEl.name == "chooseLeagueStatsToDisplayChoice" && thisEl.type == "checkbox") { 
+					if (thisEl.checked) { 
+						statIdsToShow += pipe + thisEl.value; 
+						pipe = "|"; 
+					} 
+				} else if (thisEl.name == "statDisplayType" && thisEl.checked) { 
+					showAverages = (thisEl.value == "averages"); 
+				} else if (thisEl.name == "showRotoLine") { 
+					showRotoLine = thisEl.checked 
+				} 
+			} 
+		} 
+ 
+		var success = function(t){ 
+			players(playerParams); 
+		} 
+ 
+		//GET LEAGUEID FROM PARAMS 
+		var params = playerParams.split("&"); 
+		var leagueId = -1; 
+		for (var i = 0; i < params.length; i++) { 
+			var paramArr = params[i].split("="); 
+			if (paramArr[0] == "leagueId") { 
+				leagueId = paramArr[1]; 
+				break; 
+			} 
+		}	
+		
+		var url = "http://" + host + "/" + gameRoot + "/" + "util/saveLeagueStatsToDisplayToCookie?leagueId=" + leagueId + "&show=" + statIdsToShow;
+		if (showAverages != null) url += '&showAverages=' + showAverages;
+		if (showRotoLine != null) {
+			url += '&showRotoLine=' + showRotoLine;
+			var rotoLine = $("rotoline-table") 
+			if(rotoLine) { 
+				if(showRotoLine == false) rotoLine.style.display = "none"; 
+				else rotoLine.style.display = "table"; 
+			} 
+		} 
+		url += noCache(); 
+		var req = new Ajax.Request(url, {method:'get', onSuccess:success}); 
+	}, 
+	
+	clearCookie: function(playerParams) { 
+		var success = function(t){ players(playerParams); } 
+		var failure = function(t){ } 
+ 
+		//GET LEAGUEID FROM PARAMS 
+		var params = playerParams.split("&"); 
+		var leagueId = -1; 
+		for (var i = 0; i < params.length; i++) { 
+			var paramArr = params[i].split("="); 
+			if (paramArr[0] == "leagueId") { 
+				leagueId = paramArr[1]; 
+				break; 
+			} 
+		} 
+ 
+		var url = "http://" + host + "/" + gameRoot + "/" + "util/clearLeagueStatsToDisplayCookie?leagueId=" + leagueId + noCache();
+		var req = new Ajax.Request(url, {method:'get', onSuccess:success, onFailure:failure});
+	},
+	
+	getObjs: function() {
+		this.chooserDiv = $('chooseLeagueStatsToDisplayDiv');
+		this.chooserLink = $('chooseLeagueStatsToDisplayLink');
+	},
+	
+	toggle: function() {
+		if (!this.chooserDiv || !this.chooserLink) this.getObjs();
+			
+		if (this.isOpen) this.chooserDiv.hide();
+		else { 
+			var location = findPos(this.chooserLink);
+			this.chooserDiv.style.zIndex = -1;
+			this.chooserDiv.show();
+			this.chooserDiv.style.left = (this.chooserLink.offsetLeft+10)+"px"; 
+			this.chooserDiv.style.top = (location[1]-75)+"px"; 
+			this.chooserDiv.style.zIndex = 10; 
+		} 
+		this.isOpen = !this.isOpen; 
+	} 
+ 
+} 
+ 
+var chooser = new StatChooser(); 
+ 
+(function($) { 
+	AjaxFilterUpdater = Class.create({ 
+		initialize: function(bindHandlers, gameDateFilter, statQualifierFilter, containerId) { 
+			this.allowAjax = true; 
+			this.params = this.deserialize(window.location.search.substring(1)); 
+			this.gameDateFilter = gameDateFilter; 
+			this.statQualifierFilter = statQualifierFilter; 
+			if (this.gameDateFilter != null) this.gameDateFilter.ajaxFilterUpdater = this; 
+			if (this.statQualifierFilter != null) this.statQualifierFilter.ajaxFilterUpdater = this; 
+			this.containerId = (containerId != null ? containerId : "playerTableContainerDiv"); 
+			if (window.location.hash != '' && window.location.hash != '#reset' && window.location.search.indexOf(window.location.hash.substring(1)) < 0) { 
+				Utility.extend(this.params, this.deserialize(window.location.hash.substring(1))); 
+				this.showCurrentFilters(); 
+				this.filter(); 
+			} 
+			if (bindHandlers) this.bindEventHandlers(); 
+		}, 
+ 
+		deserialize: function(qs) { 
+			var qss = qs.split('&'), p = new Object(); 
+			for (var i = 0; i < qss.length; i++) { 
+				var kv = qss[i].split('='); 
+				p[kv[0]] = kv[1]; 
+			} 
+			return p; 
+		}, 
+ 
+		serialize: function(ob) { 
+			var s = '', amp = ''; 
+			for (var k in ob) { 
+				s += amp + k + '=' + ob[k];
+				amp = '&'; 
+			} 
+			return s; 
+		}, 
+ 
+		filter: function(param, value, mutExParams, skipUpdate) { 
+			var newOb = {}; 
+			if (param != null) { 
+				if (value == null) delete this.params[param]; 
+				else { 
+					newOb[param] = value; 
+					Utility.extend(this.params, newOb); 
+				} 
+				var paramsToDelete = ['startIndex', 'playerId'].concat(mutExParams != null ? mutExParams : []); 
+				for (var i = 0; i < paramsToDelete.length; i++) delete this.params[paramsToDelete[i]]; 
+			} 
+			if (!skipUpdate) players(this.serialize(this.params)); 
+		}, 
+		
+		handleNewParams: function(newParams) { 
+			this.params = this.deserialize(newParams); 
+			this.updateHash(); 
+		}, 
+ 
+		updateHash: function() { 
+			var h = this.serialize(this.params).replace(/&*leagueId=[0-9]+/, '').replace(/&*teamId=[0-9]+/, ''); 
+			if (h == null || h == '') h = 'reset'; 
+			window.location.hash = h; 
+		}, 
+ 
+		showCurrentFilters: function() { 
+			for (var k in this.params) { 
+				var val = this.params[k]; 
+				if (k == "slotCategoryGroup") { 
+					$('ul.filterToolsOptionSet li a[name="slotCategoryId"]').removeClass('active'); 
+					$('ul.filterToolsOptionSet li a.slotCategoryGroup[name="slotCategoryId"][value="'+val+'"]').addClass('active'); 
+				} else if (k == "statFilter") { 
+					if (val != -1) { 
+						$('ul.filterToolsOptionSet li a[name="'+k+'"]').removeClass('active'); 
+						$('ul.filterToolsOptionSet li a[name="'+k+'"][value="1"]').addClass('active'); 
+						this.statQualifierFilter.reverseUpdate(val); 
+					} 
+				} else if (k == "gamesInScoringPeriodDate") { 
+					$('ul.filterToolsOptionSet li a[name="gamesInScoringPeriodId"]').removeClass('active'); 
+					this.gameDateFilter.reverseUpdate(val); 
+				} else if (k == "search") { 
+					$('input#lastNameInput').attr('value', val); 
+					$('input#lastNameCancel').attr('disabled', ''); 
+				} else if (k == "proTeamId") { 
+					$('select#proTeamSelect').attr('value', val); 
+				} else { 
+					$('ul.filterToolsOptionSet li a[name="'+k+'"]').removeClass('active'); 
+					$('ul.filterToolsOptionSet li a[name="'+k+'"][value="'+val+'"]').addClass('active'); 
+				} 
+			} 
+		}, 
+		
+		resetAll: function() { 
+			var searchParams = this.deserialize(window.location.search.substring(1)), newOb = {}, paramsToKeep = ['leagueId', 'teamId', 'seasonId'], needsRedirect = false; 
+			for (var k in searchParams) { 
+				if (paramsToKeep.indexOf(k) > -1) newOb[k] = searchParams[k];
+				else needsRedirect = true;
+			}
+			if (needsRedirect) window.location.search = '?' + this.serialize(newOb);
+			else {
+				this.params = newOb;
+				this.filter();
+				$('ul.filterToolsOptionSet li a').removeClass('active');
+				$('ul.filterToolsOptionSet li a.default').addClass('active');
+				this.statQualifierFilter.disableFilter();
+				this.gameDateFilter.updateDateText(null);
+				$('input#lastNameInput').attr('value', '');
+				$('input#lastNameCancel').attr('disabled', 'disabled');
+				$('input#lastNameSubmit').attr('disabled', '');
+				$('select#proTeamSelect').attr('value', 'null');
+			}
+		},
+		
+		bindEventHandlers: function() {
+			var _this = this;
+			$('ul.filterToolsOptionSet li a').click(function(event) {
+				event.preventDefault();
+				var clickedEl = $(this);
+				$('ul.filterToolsOptionSet li a[name="'+clickedEl.attr('name')+'"]').removeClass('active');
+				clickedEl.addClass('active');
+				if (clickedEl.hasClass('statFilter')) {
+					if (parseInt(clickedEl.attr('value')) > -1) {
+						_this.statQualifierFilter.enableFilter();
+						return;
+					} else {
+						_this.statQualifierFilter.disableFilter();
+					}
+				}
+				var nullParams = [], attrName = clickedEl.attr('name');
+				if (clickedEl.attr('name') == 'slotCategoryId') {
+					if (clickedEl.hasClass('slotCategoryId')) nullParams.push('slotCategoryGroup');
+					else {
+						nullParams.push('slotCategoryId');
+						attrName = 'slotCategoryGroup';
+					}
+					if (_this.params.gamesInScoringPeriodId == "ps" && clickedEl.hasClass('noProbStart')) {
+						$('ul.filterToolsOptionSet li a[name="gamesInScoringPeriodId"]').removeClass('active');
+						var defGameFilter = $('ul.filterToolsOptionSet li a[name="gamesInScoringPeriodId"].default');
+						defGameFilter.addClass('active');
+						_this.filter('gamesInScoringPeriodId', defGameFilter.attr('value'), null, true);
+					}
+				}
+				if (clickedEl.attr('name') == 'gamesInScoringPeriodId') {
+					nullParams.push('gamesInScoringPeriodDate');
+					_this.gameDateFilter.linkClicked();
+					if (clickedEl.attr('value') == "ps") {
+						var defSlot = $('ul.filterToolsOptionSet li a[name="slotCategoryId"].probStart').eq(0);
+						var slotAttrName = 'slotCategroyId', slotNullParams = [];
+						if (defSlot && defSlot.length > 0) {
+							$('ul.filterToolsOptionSet li a[name="slotCategoryId"]').removeClass('active');
+							defSlot.addClass('active');
+							if (defSlot.hasClass('slotCategoryId')) slotNullParams.push('slotCategoryGroup');
+							else {
+								slotNullParams.push('slotCategoryId');
+								slotAttrName = 'slotCategoryGroup';
+							}
+							_this.filter(slotAttrName, defSlot.attr('value'), slotNullParams, true);
+						}
+					}
+				}
+				_this.filter(attrName, clickedEl.attr('value'), nullParams);
+			});
+ 
+			$('input.lastNameFilterButton').click(function(event) {
+				event.preventDefault();
+				var clickedEl = $(this), searching = (clickedEl.attr('name') == 'search');
+				if (searching) _this.filter('search', $('#lastNameInput').attr('value'));
+				else {
+					_this.filter('search', null);
+					$('#lastNameInput').attr('value', '')
+				}
+				$('input.lastNameFilterButton[name="clear"]').attr('disabled', (searching ? '' : 'disabled'));
+			});
+ 
+			$('#proTeamSelect').change(function(event) {
+				event.preventDefault();
+				var selectEl = $(this);
+				_this.filter(selectEl.attr('name'), selectEl.attr('value'));
+			});
+ 
+			$('#statSliderStatChooser').change(function(event) {
+				event.preventDefault();
+				_this.statQualifierFilter.updateStatId($(this).attr('value'));
+			});
+ 
+			$('#gameDateSelectorPopupCalendarIcon').click(function(event){
+				_this.gameDateFilter.handleIconClick(event);
+			});
+ 
+			$('#resetAllFiltersButton').click(function(event){
+				event.preventDefault();
+				_this.resetAll();
+			});
+		}
+	});
+	
+	StatQualifierFilter = Class.create({
+		initialize: function(filterOptions, usingFilter) {
+			this.allowAjax = true;
+			this.filterOptions = filterOptions;
+			this.current = this.filterOptions[0];
+			this.initSlider();
+			this.renderCurrentSliderValue();
+			this.renderCurrentSliderType();
+			if (!usingFilter) this.disableFilter();
+		},
+ 
+		initSlider: function() {
+			var ops = { slide: this.handleSlide.bindf(this), change: this.handleChange.bindf(this) };
+			Utility.extend(ops, this.getOptionValues(this.current));
+			this.sliderDiv = $("#statSlider");
+			this.sliderDiv.slider(ops);
+		},
+ 
+		getOptionValues: function(op) {
+			op.step = (op.step ? op.step : 1);
+			op.value = (op.value ? op.value: op.min+(Math.round((op.max-op.min)/5)));
+			op.type = (op.type ? op.type: StatQualifierFilter.CONSTANTS.TYPE_GT);
+			return op;
+		},
+		
+		isMin: function() {
+			return this.current.type == StatQualifierFilter.CONSTANTS.TYPE_GT;
+		},
+		
+		renderCurrentSliderValue: function(val) {
+			var vuf = (val != null ? val : this.current.value);
+			var vf = vuf;
+			if (this.current.format) {
+				if (typeof this.current.format == 'function') vf = this.current.format(vuf);
+				else vf = Utility.formatNumberTea(vuf, this.current.format);
+			}
+			$('#statSliderValue').text(vf);
+		},
+ 
+		renderCurrentSliderType: function() {
+			$('#statSliderTypeLabel').text((this.isMin() ? 'At least' : 'At most'));
+		},
+		
+		updateStatId: function(statId, inVal) {
+			var fields = ['min', 'max', 'value', 'step'];
+			for (var i = 0; i < this.filterOptions.length; i++) {
+				if (this.filterOptions[i].statId == statId) {
+					this.current = this.filterOptions[i];
+					if (inVal != null) this.current.value = inVal;
+					this.getOptionValues(this.current);
+					for (var i=0; i < fields.length; i++) this.sliderDiv.slider('option', fields[i], this.current[fields[i]]);
+					this.renderCurrentSliderValue();
+					this.renderCurrentSliderType();
+					this.ajaxUpdate();
+					return;
+				}
+			}
+		},
+		
+		handleSlide: function(event, ui){ 
+			this.renderCurrentSliderValue(ui.value);
+		},
+		
+		handleChange: function(event, ui){
+			this.current.value = ui.value;
+			this.ajaxUpdate();
+		},
+		
+		enableFilter: function(){
+			this.sliderDiv.slider('enable');
+			$('#statSliderStatChooser').attr('disabled', '');
+			this.ajaxUpdate();
+		},
+		
+		disableFilter: function(){
+			this.sliderDiv.slider('disable');
+			$('#statSliderStatChooser').attr('disabled', 'disabled');
+		},
+		
+		ajaxUpdate: function() {
+			if (!this.allowAjax) return;
+			var isMin = this.isMin();
+			var statId = this.current.statId;
+			var min = (isMin ? this.current.value : null);
+			var max = (!isMin ? this.current.value : null);
+			if (this.ajaxFilterUpdater) this.ajaxFilterUpdater.filter("statFilter", statId+'|'+min+'|'+max);
+		},
+		
+		reverseUpdate: function(str) {
+			this.allowAjax = false;
+			var strs = str.split('|');
+			var statId = parseInt(strs[0]);
+			var min = (strs[1] != null && strs[1] != "null" ? parseFloat(strs[1]) : null);
+			var max = (strs[2] != null && strs[2] != "null" ? parseFloat(strs[2]) : null);
+			$('select#statSliderStatChooser').attr('value', statId);
+			this.updateStatId(statId, (min != null ? min : max));
+			this.enableFilter();
+			this.allowAjax = true;
+		}
+	});
+	StatQualifierFilter.CONSTANTS = {TYPE_GT:0, TYPE_LT:1};
+	
+	GameDateFilter = Class.create({
+		initialize: function(transScoringPeriod, firstScoringPeriod, finalScoringPeriod) {
+			this.transScoringPeriod = transScoringPeriod;
+			this.firstScoringPeriod = firstScoringPeriod;
+			this.finalScoringPeriod = finalScoringPeriod;
+		},
+		
+		handleIconClick: function(event) {
+			if (!this.popupCalendar) this.popupCalendar = new PopupCalendar(false, this.selectDate.bindf(this), this.isActive.bindf(this));
+			this.popupCalendar.toggle(event);
+		},
+		
+		selectDate: function(d) {
+			$('ul.filterToolsOptionSet li a[name="gamesInScoringPeriodId"]').removeClass('active');
+			if (d.getTime() >= this.transScoringPeriod[0] && d.getTime() < this.transScoringPeriod[1]) {
+				$('ul.filterToolsOptionSet li a[name="gamesInScoringPeriodId"].current').addClass('active');
+				this.updateDateText(null);
+			} else {
+				this.updateDateText(d);
+			}
+			if (this.ajaxFilterUpdater) this.ajaxFilterUpdater.filter('gamesInScoringPeriodDate', this.getTeaDateString(d), ['gamesInScoringPeriodId']);
+		},
+		
+		isActive: function(d) {
+			return (d.getTime() >= this.firstScoringPeriod[0] && d.getTime() < this.finalScoringPeriod[1]);
+		},
+		
+		getTeaDateString: function(d) {
+			function pad(n){return n<10 ? '0'+n : n}
+			return '' + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate());
+		},
+		
+		getGameDateText: function(d) {
+			var dayTexts = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], monthTexts = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+			return dayTexts[d.getDay()] + ', ' + monthTexts[d.getMonth()] + ' ' + d.getDate();
+		},
+		
+		linkClicked: function() {
+			if (this.popupCalendar) this.popupCalendar.showSelectedDate = false;
+			$('#gameDateSelectorSelectedDate').text('');
+		},
+		
+		updateDateText: function(d) {
+			var v = (d != null ? this.getGameDateText(d) : '');
+			$('#gameDateSelectorSelectedDate').text(v);
+		},
+		
+		reverseUpdate: function(teaDate) {
+			var year = parseInt(teaDate.substr(0,4));
+			var month = parseInt(teaDate.substr(4,2))-1;
+			var date = parseInt(teaDate.substr(6,2));
+			var d = new Date(year, month, date);
+			this.updateDateText(d);
+		}
+	});
+})(jQuery);52"></script> 
+<script type="text/javascript" src="http://g.espncdn.com/ffl/static/js/everyDay?v=12112232"></script> 
+<script type="text/javascript"> 
+</script> 
+<script type="text/javascript"></script> 
+<link rel="alternate" title="League Feed" href="/ffl/leaguefeed?leagueId=122885&teamId=1" type="application/rss+xml"> 
+</head><body class="trans-fantasy context-clubhouse games-ad-300 clubhouse-pre-draft"> 
+<!--[if IE 6]><div class="ie ie6"><![endif]--> 
+<!--[if IE 7]><div class="ie ie7"><![endif]--> 
+<!--[if IE 8]><div class="ie ie8"><![endif]--> 
+<div class="bg-elements"> 
+<table class="maincontainertbl" cellpadding="0" cellspacing="0"><tr><td class="maincontainertblcell" valign="top" id="maincontainertblcell"><div id="header" class="container"> 
+<!-- ////////// start: Transitional Header ////////// --><div class="top-bar"> 
+<!-- begin uni login --> 
+<script type="text/javascript"> 
+var returnURL = document.location.href;
+var anCV = "";
+var myEspnText = {'welcometext':'Welcome','register':'Register','signin':'Sign In','signout':'Sign Out','heliumdown':'Login Temporarily Unavailable','activateinsider':'Activate Insider'};
+</script> 
+ 
+ 
+<form id="form-memberarea"> 
+<input type="hidden" name="language" id="language" value="en"/> 
+<input type="hidden" name="affiliateName" id="memberAreaAffiliateName" value="espn_fantgames"/> 
+<input type="hidden" name="regFormId" id="regFormId" value="espn_ffl"/> 
+</form> 
+<div class="signin" id="signin"></div> 
+<script>espn.memberservices.welcome();</script><div class="nav-edition editions"> 
+<label>EDITIONS:</label> 
+<ul class="main"> 
+	<li class="e-usa"><a href="http://espn.go.com/" name="&amp;lpos=editionsnav&amp;lid=usa">USA</a></li> 
+	<li class="e-deportes"><a href="http://espndeportes.espn.go.com/" name="&amp;lpos=editionsnav&amp;lid=deportes">DEPORTES</a></li> 
+	<li class="last dropdown"> 
+	<ul class=""> 
+	<li class="selected">More</li> 
+	<li><a href="http://www.espnstar.com/" name="&amp;lpos=editionsnav&amp;lid=asia">Asia</a></li> 
+	<li><a href="http://www.espn.com.au" name="&amp;lpos=editionsnav&amp;lid=australia">Australia</a></li> 
+	<li><a href="http://www.espn.com.br" name="&amp;lpos=editionsnav&amp;lid=brazil">Brazil</a></li> 
+	<li><a href="http://www.espn.co.uk/" name="&amp;lpos=editionsnav&amp;lid=uk">United Kingdom</a></li> 
+	</ul> 
+	</li> 
+</ul> 
+</div> 
+ 
+<div class="nav-edition"> 
+<label>CITIES:</label> 
+<ul class="main"> 
+	<li class="e-boston"><a href="http://espn.go.com/boston/" name="&amp;lpos=citynav&amp;lid=boston">BOSTON</a></li> 
+	<li class="e-chicago"><a href="http://espn.go.com/chicago/" name="&amp;lpos=citynav&amp;lid=chicago">CHICAGO</a></li> 
+	<li class="e-dallas"><a href="http://espn.go.com/dallas/" name="&amp;lpos=citynav&amp;lid=dallas">DALLAS</a></li> 
+	<li class="e-losangeles"><a href="http://espn.go.com/los-angeles/" name="&amp;lpos=citynav&amp;lid=losangeles">LOS ANGELES</a></li> 
+	<li class="last e-newyork"><a href="http://espn.go.com/new-york/" name="&amp;lpos=citynav&amp;lid=newyork">NEW YORK</a></li> 
+</ul> 
+</div></div> 
+<div class="espn-logo"> 
+<h1> 
+<a href="http://espn.go.com" class="espn">ESPN</a> 
+<img src="http://g.espncdn.com/s/ffllm/11/images/shell/bgHead_leaguemanager.png" height="69"> 
+</h1> 
+</div> 
+<div class="presby"> 
+ 
+<!-- begin ad tag (tile=1) --> 
+<script language="JavaScript" type="text/javascript"> 
+var adSegments = espn.core.ad_segments();
+var pipedAdSegments = adSegments.replace(/;/g, "|").substring(0,adSegments.length-1);
+var adURI = "espn.us.com.games/football" + ";pgn=AustinStories;pgtyp=clubhouse;lang=en;gm=ffl;pos=SponsoredByLogoHeader;" + adSegments + "u=swid={248BE38F-1395-4753-9246-599CF82D3DB1}|pgn=AustinStories|pgtyp=clubhouse|lang=en|gm=ffl|pos=SponsoredByLogoHeader|" + pipedAdSegments + ";dcopt=ist;sz=150x45;tile=1;ord=1209323" + "?";
+document.write('<script language="JavaScript" src="http://ad.Doubleclick.net/adj/' + adURI + '" type="text/javascript"><\/script>');
+</script><noscript><a href="http://ad.doubleclick.net/jump/espn.us.com.games/football;pgn=AustinStories;pgtyp=clubhouse;lang=en;gm=ffl;pos=SponsoredByLogoHeaderu=swid={248BE38F-1395-4753-9246-599CF82D3DB1}|pgn=AustinStories|pgtyp=clubhouse|lang=en|gm=ffl|pos=SponsoredByLogoHeader|;dcopt=ist;sz=150x45tile=1;ord=1209323" target="_blank"><img src="http://ad.doubleclick.net/ad/espn.us.com.games/football;pgn=AustinStories;pgtyp=clubhouse;lang=en;gm=ffl;pos=SponsoredByLogoHeaderu=swid={248BE38F-1395-4753-9246-599CF82D3DB1}|pgn=AustinStories|pgtyp=clubhouse|lang=en|gm=ffl|pos=SponsoredByLogoHeader|;dcopt=ist;sz=150x45tile=1;ord=1209323" width="150" height="45" border="0" alt=""></a></noscript> 
+<!-- End ad tag --> 
+ 
+</div><div id="shop"> 
+	<a class="shop-btn" href="http://espnshop.com/entry.point?target=Z&amp;source=ESPN_HPHEADERLINK:SHOPBUTTONHEADER:6_1_10" onclick="location.href('http://log.go.com/log?srvc=sz&amp;guid=92F96588-1A99-4863-9B75-CE517F79112C&amp;drop=0&amp;addata=3374:65:478847:65&amp;a=1&amp;goto=http://espnshop.com/entry.point?target=Z&amp;source=ESPN_HPHEADERLINK:SHOPBUTTONHEADER:6_1_10');return false" name="&lpos=sitenavdefault&lid=sitenav_shopbutton">Shop</a> 
+</div><div id="nav-main-search"> 
+<form id="searchBox" name="searchBox" action="http://search.espn.go.com/results" method="get" accept-charset="utf-8" class="clearfix"> 
+<div class="clearfix"> 
+<input autocomplete="off" class="text ui-autocomplete-input" type="text" placeholder="Search" name="searchString" id="searchString" role="textbox" aria-autocomplete="list" aria-haspopup="true"><input type="hidden" name="page" id="page" value="null"> 
+<input type="hidden" name="fromForm" value="true"> 
+<input class="submit" type="submit" value=""> 
+</div> 
+</form> 
+</div> 
+</div> 
+<div id="subheader"><div id="content-wrapper"> 
+<div id="content" class="container"> 
+<div> 
+ 
+<!--[if lte IE 6]>
+<div class="span-6" id="browser-alert-wrapper" style="display: none;">
+	<div class="mod-container mod-no-header-footer browser-alert">
+		<div class="mod-content">
+			<div class="gradient-container">
+				<h1><span>Your Web Browser</span> is no longer supported</h1>
+				<p>To experience everything that ESPN.com has to offer, we recommend that you upgrade to a newer version of your web browser. Click the upgrade button to the right or <a href="http://espn.go.com/espn/news/story?id=5630562">learn more</a>.</p>
+				<ul>
+					<li><a class="btn-upgrade" href="'+browserUrl+'">Upgrade</a></li>
+					<li><a class="btn-faq" href="http://espn.go.com/espn/news/story?id=5630562">FAQs</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	(function($) {
+		  setTimeout(function () {
+				var $alertWrapper = $('#browser-alert-wrapper'),
+					  browserAlertOptOut = espn.cookie.get('browseralert');
+				if (browserAlertOptOut != 'true') {
+					  $("<a class=\"btn-close\" href=\"#\">Close</a>").bind('click', function (e) {
+							$alertWrapper.hide();
+							espn.cookie.set('browseralert','true',30);
+							return false;
+					  }).appendTo('.gradient-container',$alertWrapper);
+					  $alertWrapper.show();
+					  espn.cookie.set('browseralert','true');
+				}
+		  },100);
+	})(jQuery);
+</script>
+<![endif]--> 
+<div class="nav-main-breadcrumbs-row" style="height: 28px;"> 
+<div class="nav-main-breadcrumbs"> 
+<a href="http://espn.go.com">ESPN</a> &raquo; <a href="http://games.espn.go.com/ffl/frontpage">Free Fantasy Football</a> &raquo; <a href="/ffl/leagueoffice?leagueId=122885">Primetime Soap Operas</a> &raquo; <a title="Austin Stories (Patrick Nance)" href="/ffl/clubhouse?leagueId=122885&amp;teamId=1&amp;seasonId=2011" target="_top">Austin Stories</a></div> 
+<div class="playerSearchDiv"><form class="playerSearchForm" name="playerSearch" id="playerSearch" action="/ffl/freeagency" onsubmit="return playerSuggester.submitSelectedPlayer();" method="GET"><div><input type="hidden" name="leagueId" value="122885"><input type="hidden" name="teamId" value="1"><input type="hidden" name="avail" value="-1"><input type="hidden" name="slotCategoryGroup" value="-1">Find a Player: <input class="playerSearchNameInput" type="text" id="playerName" name="search" onkeyup="playerSuggester.handleKeyUp(event, this.value);" value="Last Name" style="color:#999;" onfocus="playerSuggester.focus();" onblur="playerSuggester.blur();"></div></form><div style="margin: 0px;"><div id="playerSuggestions" style="display: none;" onmouseover="playerSuggester.suggestDivOver();" onmouseout="playerSuggester.suggestDivOut();"></div></div></div><script type="text/javascript">playerSearchObj=new Object();playerSearchObj.varName = "playerSuggester";playerSearchObj.suggestDiv = "playerSuggestions";playerSearchObj.inputField = "playerName";playerSearchObj.cssPrefix = "";playerSearchObj.statId = null;playerSearchObj.chartSplitType = null;var playerSuggester = new PlayerSuggester(playerSearchObj);</script><div class="comparePlayersLinkDiv"><a id="comparePlayersLauncher" href="" instance="_comparePlayers" content="ajax#/ffl/playertable/prebuilt/compareplayers?leagueId=122885&teamId=1&playerCompare=true" class="flexpop" modal="true" fpopStyle="modal">Compare Players</a> (<span id="comparePlayersCount">0</span>)</div><div class="clear"></div></div> 
+<div class="games-nav"><ul id="games-tabs"><li class=" "><a href="/ffl/leagueoffice?leagueId=122885">League</a></li><li class="games-on "><a href="/ffl/clubhouse?leagueId=122885&teamId=1">My Team</a></li><li class=" "><a href="/ffl/freeagency?leagueId=122885&teamId=1">Players</a></li><li class=" "><a href="/ffl/standings?leagueId=122885">Standings</a></li><li class=" "><a href="/ffl/scoreboard?leagueId=122885">Scoreboard</a></li><li class=" "><a href="/ffl/lmtools?leagueId=122885">LM Tools</a></li><li class=" games-teams-btn"><a href="#">Teams</a><div class="clear"></div><ul id="games-tabs1"><li><a href="/ffl/clubhouse?leagueId=122885&amp;teamId=1&amp;seasonId=2011">Austin Stories <span class="alt-info">(pat)</span></a></li><li><a href="/ffl/clubhouse?leagueId=122885&amp;teamId=2&amp;seasonId=2011">Freakin' Vegans <span class="alt-info">(KOCI)</span></a></li><li><a href="/ffl/clubhouse?leagueId=122885&amp;teamId=3&amp;seasonId=2011">Ashamed Hirsutes <span class="alt-info">(seXy)</span></a></li><li><a href="/ffl/clubhouse?leagueId=122885&amp;teamId=4&amp;seasonId=2011">UES XOXO <span class="alt-info">(John)</span></a></li><li><a href="/ffl/clubhouse?leagueId=122885&amp;teamId=5&amp;seasonId=2011">liter o' cola <span class="alt-info">(HIGH)</span></a></li><li><a href="/ffl/clubhouse?leagueId=122885&amp;teamId=6&amp;seasonId=2011">Dave Bickler <span class="alt-info">(SOMA)</span></a></li><li><a href="/ffl/clubhouse?leagueId=122885&amp;teamId=7&amp;seasonId=2011">Fox and Friends <span class="alt-info">(JKLZ)</span></a></li><li><a href="/ffl/clubhouse?leagueId=122885&amp;teamId=8&amp;seasonId=2011">FAST MONEY <span class="alt-info">(DJG)</span></a></li><li><a href="/ffl/clubhouse?leagueId=122885&amp;teamId=9&amp;seasonId=2011">Gemini's Twin <span class="alt-info">(REYN)</span></a></li><li><a href="/ffl/clubhouse?leagueId=122885&amp;teamId=10&amp;seasonId=2011">All Cromartie's Children <span class="alt-info">(SCHX)</span></a></li></ul></li><li class="games-myfntsyteam-btn" style="position: absolute; left: 849px;"><a href="#">My Fantasy Teams<img height="4" align="top" width="7" border="0" src="http://g.espncdn.com/s/ffllm/11/images/shell/yellow_dropdwn_arrow.png"/></a><div class="clear"></div><ul id="games-tabs2" style="left: -73px;"><li><a href="/ffl/tools/editmyteams?leagueId=122885" class="edit-list-option">Edit This List</a></li><li><a href="/ffl/clubhouse?leagueId=121&teamId=14&seasonId=2011">Reggie Bush's Heisman Trophy<br><span class="alt-info">ESPN3 West</span></a></li><li><a href="/ffl/clubhouse?leagueId=41370&teamId=5&seasonId=2011">Jason Wain Does Not Work for ESPN<br><span class="alt-info">Fantasy Grudge</span></a></li><li><a href="/ffl/clubhouse?leagueId=8213&teamId=12&seasonId=2011">Brian Moakley Does Not Work for ESPN<br><span class="alt-info">Shit Talking...Floor Shaking</span></a></li><li><a href="/ffl/clubhouse?leagueId=122885&teamId=1&seasonId=2011">Austin Stories<br><span class="alt-info">Primetime Soap Operas</span></a></li><li><a href="/ffl/clubhouse?leagueId=379874&teamId=7&seasonId=2011">Fountains of Reggie Wayne<br><span class="alt-info">The T-Shirt League</span></a></li><li><a href="/ffl/clubhouse?leagueId=505168&teamId=4&seasonId=2011">Henrik Larsson (1984 Edition)<br><span class="alt-info">Stor Poäng!</span></a></li><li><a href="/ffl/clubhouse?leagueId=907325&teamId=1&seasonId=2011">The Hottest, Coolest Time In Texas!<br><span class="alt-info">Dippin' Dots All-Stars</span></a></li></ul></li></ul></div><div class="gamesmain container"> 
+<div class="games-innercol"> 
+<div class="games-innercol2"> 
+<div class="games-ad300"> 
+ 
+<!-- begin ad tag (tile=2) --> 
+<script language="JavaScript" type="text/javascript"> 
+var adSegments = espn.core.ad_segments();
+var pipedAdSegments = adSegments.replace(/;/g, "|").substring(0,adSegments.length-1);
+var adURI = "espn.us.com.games/football" + ";pgn=AustinStories;pgtyp=clubhouse;lang=en;gm=ffl;pos=InContent;" + adSegments + "u=swid={248BE38F-1395-4753-9246-599CF82D3DB1}|pgn=AustinStories|pgtyp=clubhouse|lang=en|gm=ffl|pos=InContent|" + pipedAdSegments + ";dcopt=ist;sz=300x250;tile=2;ord=1209323" + "?";
+document.write('<script language="JavaScript" src="http://ad.Doubleclick.net/adj/' + adURI + '" type="text/javascript"><\/script>');
+</script><noscript><a href="http://ad.doubleclick.net/jump/espn.us.com.games/football;pgn=AustinStories;pgtyp=clubhouse;lang=en;gm=ffl;pos=InContentu=swid={248BE38F-1395-4753-9246-599CF82D3DB1}|pgn=AustinStories|pgtyp=clubhouse|lang=en|gm=ffl|pos=InContent|;dcopt=ist;sz=300x250tile=2;ord=1209323" target="_blank"><img src="http://ad.doubleclick.net/ad/espn.us.com.games/football;pgn=AustinStories;pgtyp=clubhouse;lang=en;gm=ffl;pos=InContentu=swid={248BE38F-1395-4753-9246-599CF82D3DB1}|pgn=AustinStories|pgtyp=clubhouse|lang=en|gm=ffl|pos=InContent|;dcopt=ist;sz=300x250tile=2;ord=1209323" width="300" height="250" border="0" alt=""></a></noscript> 
+<!-- End ad tag --> 
+ 
+</div> 
+<div class="games-nav subnav"><ul id="games-subnav-links"><li class="games-on"><a href="/ffl/clubhouse?leagueId=122885&teamId=1">Roster</a></li><li class=" games-subnav-drop-btn"><a href="/ffl/freeagency?leagueId=122885&teamId=1">Add Player <span class="games-downarrow">&#9660;</span></a><div class="clear"></div><ul class="games-subnav-drop"><li class="drop-item"><ul><li><a href="/ffl/freeagency?leagueId=122885&teamId=1" target=_top>All</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=0" target=_top>QB</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=2" target=_top>RB</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=3" target=_top>RB/WR</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=4" target=_top>WR</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=5" target=_top>WR/TE</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=6" target=_top>TE</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=10" target=_top>LB</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=11" target=_top>DL</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=14" target=_top>DB</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=15" target=_top>DP</a></li><li><a href="/ffl/freeagency?leagueId=122885&teamId=1&slotCategoryId=17" target=_top>K</a></li></ul></li></ul></li><li class=""><a href="/ffl/dropplayers?leagueId=122885&teamId=1">Drop Players</a></li><li class=""><a href="/ffl/watchlist?leagueId=122885&teamId=1">Watch List</a></li><li class=""><a href="/ffl/tradingblock?leagueId=122885&teamId=1">Trading Block</a></li><li class=""><a href="/ffl/tools/teamsettings?leagueId=122885&teamId=1">Team Settings</a></li><li class=""><a href="/ffl/tools/keeperselect?leagueId=122885&teamId=1">Keepers</a></li><li class=""><a href="/ffl/trophycase?leagueId=122885&teamId=1">Trophies</a></li><li class=" games-subnav-drop-btn"><div>More <span class="games-downarrow">&#9660;</span></div><div class="clear"></div><ul class="games-subnav-drop"><li class="drop-item"><a href="/ffl/schedule?leagueId=122885&teamId=1">Schedule</a></li><li class="drop-item"><a href="/ffl/recentactivity?leagueId=122885&teamId=1&activityType=2">Transaction Log</a></li></ul></li></ul></div><div ><div class="games-topcol games-topcol-expand"><div class="games-univ-mod1"><a style="border:none; width:151; height:129.0;" href="/ffl/tools/teamsettings?leagueId=122885&teamId=1"><img style="border:none" src="http://www.austinchronicle.com/binary/2231/SS.NuevaOnda.jpg" width=151 height=129.0 /></a><p><strong>Montague</strong><br><a href="/ffl/tools/teamsettings?leagueId=122885&teamId=1"><strong>Team Settings</strong></a> <img src="http://g.espncdn.com/s/ffllm/11/images/shell/wheel_icon.png" width="12" height="12" alt="" /><br></p></div><div class="games-univ-mod2"><div class="games-univ-mod3"><h3>Austin Stories <em>(pat)</em></h3><ul><li><a href="/ffl/leagueoffice?leagueId=122885"><strong>Primetime Soap Operas</strong></a></li><div class="clear"></div></ul><ul><li class="per-info"><a href="http://sportsnation.espn.go.com/fans/arsixsixwy" target="_blank">Patrick Nance</a></li><li class="per-info univBtn1"><a href="/ffl/leaguesetup/ownerinfo?leagueId=122885"><strong>Add 2nd Owner</strong></a></li><div class="clear"></div></ul><div class="clear"></div></div><div class="games-univ-mod4"><h4><strong>Record:</strong> 0-0 <em>(1st)</em></h4><a class="games-schedule" href="/ffl/schedule?leagueId=122885&teamId=1">Schedule</a></div><div class="clear"></div></div><div class="games-univ-mod2 univ-bottom-mod2"><div class="games-univ-mod5"><ul><li><ul><li><a href="/ffl/tools/editdraftlist?leagueId=122885&teamId=1"><strong>Edit Pre-Draft Player Rankings</strong></a></li><li><a href="/ffl/tools/editdraftstrategy?leagueId=122885&teamId=1"><strong>Edit Autopick Strategy</strong></a></li><li><a href="/ffl/tools/keeperselect?leagueId=122885&teamId=1"><strong>Select Keepers</strong></a> (Deadline: Aug 13, 3AM ET)</li></ul></li></ul></li></ul></div><div class="games-univ-mod5 univ-right-mod5"> 
+	<!--<style>
+	.games-univ-mod5.univ-right-mod5 {
+		-moz-border-radius: 0;
+		padding:0;
+		width:246px;
+		height:104px;
+	}
+	</style>
+	<iframe width="246" height="104" scrolling=no style="background:#D7DGDF;" src="http://streak.espn.go.com/format/modules/lm_clubhouse/streakModule">STREAK</iframe>--> 
+	</div><div class="clear"></div></div><div class="clear"></div>						
+<div class="games-alert-mod games-red-alert"> 
+<ul> 
+<li>Your <strong>Offline Draft</strong> is scheduled for <strong>Sat., Aug. 20</strong> at <strong>1:00 PM ET</strong>&nbsp;&nbsp;<span title="Share with your friends" class="gigyaShare_small" onclick='ESPNGigya.showShareUI({"title":"Primetime Soap Operas Draft Scheduled","description":"The \"Primetime Soap Operas\" Offline Draft is scheduled for Saturday, August 20 at 1:00 PM ET.","linkBack":"http://games.espn.go.com/ffl/leagueoffice?leagueId=122885&seasonId=2011"})'></span></li> 
+<li class="games-list-border">Draft starts in:</li> 
+<li class="games-count-clock"> 
+ 
+<ul> 
+<li class="games-clock-odd rnd-left-corners"><div id="draftClockDay" style="display:inline;">00</div><em>days</em></li> 
+<li class="games-clock-even"><div id="draftClockHour" style="display:inline;">00</div><em>hrs</em></li> 
+<li class="games-clock-odd"><div id="draftClockMin" style="display:inline;">00</div><em>min</em></li> 
+<li class="games-clock-even rnd-right-corners"><div id="draftClockSec" style="display:inline;">00</div><em>sec</em></li> 
+</ul> 
+ 
+</li> 
+<div class="clear"></div> 
+</ul> 
+<div class="clear"></div> 
+</div> 
+ 
+ 
+<script type="text/javascript"> 
+ 
+draftDate = new Date(1313859600000);
+teaDateNow = new Date(1312048679006);
+jsDateNow = new Date();
+dateDiff = teaDateNow.getTime() - jsDateNow.getTime();
+function draftClock() {
+	now = new Date();
+	amount = draftDate.getTime() - (now.getTime() - dateDiff);
+	
+	if(amount < 0) {
+		document.getElementById("draftClockDay").innerHTML = "--";
+		document.getElementById("draftClockHour").innerHTML = "--";
+		document.getElementById("draftClockMin").innerHTML = "--";
+		document.getElementById("draftClockSec").innerHTML = "--";
+	} else {
+		days = 0;
+		hours = 0;
+		mins = 0;
+		secs = 0;
+		
+		// GET RID OF MILLISECONDS
+		amount = Math.floor(amount/1000);
+		// DAYS
+		days=Math.floor(amount/86400);
+		amount=amount%86400;
+		// HOURS
+		hours=Math.floor(amount/3600);
+		if (hours < 10) { hours = '0' + hours }
+		amount=amount%3600;		
+		// MINUTES
+		mins=Math.floor(amount/60);
+		if (mins < 10) { mins = '0' + mins }
+		amount=amount%60;
+		// SECONDS
+		secs=Math.floor(amount);
+		if (secs < 10) { secs = '0' + secs }
+ 
+		// PRINT
+		document.getElementById("draftClockDay").innerHTML = days;
+		document.getElementById("draftClockHour").innerHTML = hours;
+		document.getElementById("draftClockMin").innerHTML = mins;
+		document.getElementById("draftClockSec").innerHTML = secs;
+		
+		setTimeout("draftClock()", 1000);
+	}
+}
+draftClock();
+</script> 
+</div><div class="clear"></div><div class="games-bottomcol"><div class="games-fullcol"><div id="playerTableContainerDiv" class="playerTableContainerDiv"><div id="lineupErrorsDiv"></div> 
+<form name="playerTableFramedForm" id="playerTableFramedForm" method="post"  action="clubhouse?leagueId=122885&teamId=1&scoringPeriodId=1&r=8327638" style="padding-top: 0px; margin-top: 0px;"><input type="hidden" name="incoming" value="1"><input type="hidden" name="leagueId" value="122885"><input type="hidden" name="teamId" value="1"><input type="hidden" name="scoringPeriodId" value="1"><input type="hidden" name="trans" value="null"><input type="hidden" value="" name="rostermove"><br clear="all" style="line-height: 12px"><table width="970px" cellpadding="0" cellspacing="0" border="0" id="playertableFrameOuterShell"><tr><td valign="bottom" class="playerTableTabsCell clubhousePlayerTableTabsCell"><div id="playerTableHeader"><ul><li id="current"><a href="#" onclick="players('leagueId=122885&teamId=1&view=overview&context=clubhouse&ajaxPath=playertable/prebuilt/manageroster&managingIr=false&droppingPlayers=false&asLM=false');return false;";>Overview</a></li><li ><a href="#" onclick="players('leagueId=122885&teamId=1&view=stats&context=clubhouse&ajaxPath=playertable/prebuilt/manageroster&managingIr=false&droppingPlayers=false&asLM=false');return false;";>Stats</a></li><li ><a href="#" onclick="players('leagueId=122885&teamId=1&view=news&context=clubhouse&ajaxPath=playertable/prebuilt/manageroster&managingIr=false&droppingPlayers=false&asLM=false');return false;";>News</a></li><li ><a href="#" onclick="players('leagueId=122885&teamId=1&view=projections&context=clubhouse&ajaxPath=playertable/prebuilt/manageroster&managingIr=false&droppingPlayers=false&asLM=false');return false;";>Projections</a></li><li ><a href="#" onclick="players('leagueId=122885&teamId=1&view=upcomingschedule&context=clubhouse&ajaxPath=playertable/prebuilt/manageroster&managingIr=false&droppingPlayers=false&asLM=false');return false;";>Schedule</a></li><li ><a href="#" onclick="players('leagueId=122885&teamId=1&view=ranks&context=clubhouse&ajaxPath=playertable/prebuilt/manageroster&managingIr=false&droppingPlayers=false&asLM=false');return false;";>Ranks</a></li></ul><span style="display: none;" class="playerTableTabSpinner" id="playerTableTabSpinner"><img src="http://g.espncdn.com/s/ffllm/11/images/playerTableTabLoad.gif" /><span class="playerTableSpinnerLoadingText"> Loading ...</span></span></div></td><td align="right" valign="top" class="playerTableSubmitCell"><div style="float:right;" class="pncTopArea"><div class="pncUndoArea"><div id="pncTopUndoButton" class="pncTopButtonText pncTopUndoButton" onclick="rosterManager.undo();"><div style="margin-right: 12px;">Undo</div></div><div id="undoStackDiv" class="undoStackDiv undoAreaContainer" onmouseover="rosterManager.showMoveHistory();" onmouseout="rosterManager.hideMoveHistory();"></div><div id="pncStatusDiv" class="undoAreaContainer" onmouseover="rosterManager.showSaveStatusDetails();" onmouseout="rosterManager.hideSaveStatusDetails();"><div id="noMovesMadeMessage">No lineup moves made.</div><span style="display: none;" id="rosterSavingSpinner0" class="rosterSavingSpinner"><img src="http://g.espncdn.com/s/ffllm/11/images/playerTableTabLoad.gif" class="rosterSavingSpinnerImage" /><span class="rosterSavingText"> Saving ...</span></span><span id="rosterSaveStatus0" class="rosterSaveStatus"></span></div></div><div id="pncTopResetButton" class="pncTopButton pncTopButtonText" onclick="rosterManager.undoAll();" style="margin-left: 6px;">Reset</div><div class="pncTopButton pncTopButtonText" id="pncSaveRoster0" onclick="rosterManager.saveRoster();" style="margin-left: 6px;">Submit</div></div></td></tr></table><table width="970px" cellpadding="0" cellspacing="0" border="0" class="playertableFrameBorder"><tr><td colspan="2" class="playertableFrameInnerShell"><table class="playerTableTable tableBody" cellpadding="0" cellspacing="1" border="0" id="playertable_0"><tr class="playerTableBgRowHead tableHead playertableSectionHeader"><th colspan="3" class="playertableSectionHeaderFirst">STARTERS</th><td class="sectionLeadingSpacer"></td><th colspan="2">Wk 1</th><td class="sectionLeadingSpacer"></td><th colspan="4">2010 SEASON</th><td class="sectionLeadingSpacer"></td><th colspan="5">WEEK 1</th></tr><tr class="playerTableBgRowSubhead tableSubHead"><td width="65px">SLOT</td><td>PLAYER, TEAM POS</td><td width="68px">ACTION</td><td class="sectionLeadingSpacer"></td><td title="Opponent">OPP</td><td title="Game Status">STATUS ET</td><td class="sectionLeadingSpacer"></td><td class="playertableData" title="Position Rank">PRK</td><td class="playertableStat appliedPoints" title="Fantasy Points">PTS</td><td class="playertableStat appliedPoints" title="Average Fantasy Points Per Game">AVG</td><td class="playertableStat appliedPoints" title="Fantasy Points">LAST</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints" title="ESPN Projection">PROJ</td><td class="playertableData" title="Opponent Rank">OPRK</td><td class="playertableData" title="Percent Started">%ST</td><td class="playertableData" title="Percent Owned">%OWN</td><td class="playertableData" title="Change in Percent Owned">+/-</td></tr><tr id="plyr2330" class="pncPlayerRow playerTableBgRow0"><td id="slot_2330" class="slot_0 playerSlot" style="font-weight: bold;">QB</td><td class="playertablePlayerName" id="playername_2330" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="2330" teamId="1" cache="true">Tom Brady</a>, NE&nbsp;QB&nbsp;&nbsp;<span title="Probable" style="font-weight:bold;color: red;">P</span><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="2" leagueId="122885" playerId="2330" teamId="1" cache="true"><img src="http://g.espncdn.com/s/ffllm/11/images/icons/sml/video_breaking.png" height="11" width="19" border="0" style="margin:0 6px 0 6px" title="Breaking Video" /></a></td><td id="playeredit_2330" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=1&playerId=70115&seasonId=2011" class="flexpop" instance="_ppc">@Mia</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310912015_17" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310912015" target="_blank">Mon 7:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">3</td><td class="playertableStat appliedPoints">3000</td><td class="playertableStat appliedPoints">187.5</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=1&playerId=70115&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">9th</span></a></td><td class="playertableData"><nobr>97.5</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr8419" class="pncPlayerRow playerTableBgRow1"><td id="slot_8419" class="slot_2 playerSlot" style="font-weight: bold;">RB</td><td class="playertablePlayerName" id="playername_8419" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="8419" teamId="1" cache="true">Cedric Benson</a>, Cin&nbsp;RB<a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="1" leagueId="122885" playerId="8419" teamId="1" cache="true"><img src="http://g.espncdn.com/s/ffllm/11/images/icons/sml/news_recent.png" height="12" width="15" border="0" style="margin:0 6px 0 6px" title="Recent News" /></a></td><td id="playeredit_8419" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70205&seasonId=2011" class="flexpop" instance="_ppc">@Cle</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911005_4" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911005" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">16</td><td class="playertableStat appliedPoints">1699</td><td class="playertableStat appliedPoints">106.2</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70205&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">10th</span></a></td><td class="playertableData"><nobr>65.2</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr13213" class="pncPlayerRow playerTableBgRow0"><td id="slot_13213" class="slot_2 playerSlot" style="font-weight: bold;">RB</td><td class="playertablePlayerName" id="playername_13213" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="13213" teamId="1" cache="true">LeGarrette Blount</a>, TB&nbsp;RB</td><td id="playeredit_13213" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70208&seasonId=2011" class="flexpop" instance="_ppc">Det</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911027_27" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911027" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">32</td><td class="playertableStat appliedPoints">1331</td><td class="playertableStat appliedPoints">83.2</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70208&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">28th</span></a></td><td class="playertableData"><nobr>93.2</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr5941" class="pncPlayerRow playerTableBgRow1"><td id="slot_5941" class="slot_3 playerSlot" style="font-weight: bold;">RB/WR</td><td class="playertablePlayerName" id="playername_5941" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="5941" teamId="1" cache="true">Wes Welker</a>, NE&nbsp;WR</td><td id="playeredit_5941" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70315&seasonId=2011" class="flexpop" instance="_ppc">@Mia</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310912015_17" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310912015" target="_blank">Mon 7:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">32</td><td class="playertableStat appliedPoints">1334</td><td class="playertableStat appliedPoints">83.4</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70315&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">12th</span></a></td><td class="playertableData"><nobr>84.9</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr12569" class="pncPlayerRow playerTableBgRow0"><td id="slot_12569" class="slot_4 playerSlot" style="font-weight: bold;">WR</td><td class="playertablePlayerName" id="playername_12569" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="12569" teamId="1" cache="true">Percy Harvin</a>, Min&nbsp;WR</td><td id="playeredit_12569" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70324&seasonId=2011" class="flexpop" instance="_ppc">@SD</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911024_16" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911024" target="_blank">Sun 4:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">8</td><td class="playertableStat appliedPoints">1881.5</td><td class="playertableStat appliedPoints">117.6</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70324&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">4th</span></a></td><td class="playertableData"><nobr>44.1</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr12579" class="pncPlayerRow playerTableBgRow1"><td id="slot_12579" class="slot_4 playerSlot" style="font-weight: bold;">WR</td><td class="playertablePlayerName" id="playername_12579" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="12579" teamId="1" cache="true">Jeremy Maclin</a>, Phi&nbsp;WR&nbsp;&nbsp;<span title="Probable" style="font-weight:bold;color: red;">P</span></td><td id="playeredit_12579" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70314&seasonId=2011" class="flexpop" instance="_ppc">@StL</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911014_21" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911014" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">17</td><td class="playertableStat appliedPoints">1628</td><td class="playertableStat appliedPoints">101.8</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70314&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">26th</span></a></td><td class="playertableData"><nobr>92.5</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr12563" class="pncPlayerRow playerTableBgRow0"><td id="slot_12563" class="slot_5 playerSlot" style="font-weight: bold;">WR/TE</td><td class="playertablePlayerName" id="playername_12563" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="12563" teamId="1" cache="true">Michael Crabtree</a>*, SF&nbsp;WR&nbsp;&nbsp;<span title="Out" style="font-weight:bold;color: red;">O</span></td><td id="playeredit_12563" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70326&seasonId=2011" class="flexpop" instance="_ppc">Sea</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911025_25" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911025" target="_blank">Sun 4:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">45</td><td class="playertableStat appliedPoints">1131</td><td class="playertableStat appliedPoints">70.7</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70326&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">30th</span></a></td><td class="playertableData"><nobr>24.2</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr11325" class="pncPlayerRow playerTableBgRow1"><td id="slot_11325" class="slot_6 playerSlot" style="font-weight: bold;">TE</td><td class="playertablePlayerName" id="playername_11325" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="11325" teamId="1" cache="true">Jermichael Finley</a>, GB&nbsp;TE&nbsp;&nbsp;<span title="Probable" style="font-weight:bold;color: red;">P</span></td><td id="playeredit_11325" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=4&playerId=70418&seasonId=2011" class="flexpop" instance="_ppc">NO</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310908009_9" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310908009" target="_blank">Thu 8:30</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">37</td><td class="playertableStat appliedPoints">371</td><td class="playertableStat appliedPoints">23.2</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=4&playerId=70418&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">12th</span></a></td><td class="playertableData"><nobr>95.2</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr2140" class="pncPlayerRow playerTableBgRow0"><td id="slot_2140" class="slot_10 playerSlot" style="font-weight: bold;">LB</td><td class="playertablePlayerName" id="playername_2140" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="2140" teamId="1" cache="true">Brian Urlacher</a>, Chi&nbsp;LB</td><td id="playeredit_2140" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href="http://sports.espn.go.com/nfl/clubhouse?team=atl" target="_blank">Atl</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911003_3" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911003" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">4</td><td class="playertableStat appliedPoints">1560</td><td class="playertableStat appliedPoints">97.5</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData">--</td><td class="playertableData"><nobr>80.7</nobr></td><td class="playertableData"><nobr>86.0</nobr></td><td class="playertableData"><nobr><span style="color:green">+11.5</span></nobr></td></tr><tr id="plyr8488" class="pncPlayerRow playerTableBgRow1"><td id="slot_8488" class="slot_11 playerSlot" style="font-weight: bold;">DL</td><td class="playertablePlayerName" id="playername_8488" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="8488" teamId="1" cache="true">Justin Tuck</a>, NYG&nbsp;DE</td><td id="playeredit_8488" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href="http://sports.espn.go.com/nfl/clubhouse?team=was" target="_blank">@WSH</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911028_19" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911028" target="_blank">Sun 4:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">1</td><td class="playertableStat appliedPoints">1345</td><td class="playertableStat appliedPoints">84.1</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData">--</td><td class="playertableData"><nobr>99.2</nobr></td><td class="playertableData"><nobr>99.2</nobr></td><td class="playertableData"><nobr><span style="color:green">+5.1</span></nobr></td></tr><tr id="plyr9628" class="pncPlayerRow playerTableBgRow0"><td id="slot_9628" class="slot_14 playerSlot" style="font-weight: bold;">DB</td><td class="playertablePlayerName" id="playername_9628" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="9628" teamId="1" cache="true">Danieal Manning</a>, Chi&nbsp;S</td><td id="playeredit_9628" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href="http://sports.espn.go.com/nfl/clubhouse?team=atl" target="_blank">Atl</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911003_3" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911003" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">11</td><td class="playertableStat appliedPoints">1198</td><td class="playertableStat appliedPoints">74.9</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData">--</td><td class="playertableData"><nobr>5.6</nobr></td><td class="playertableData"><nobr>5.6</nobr></td><td class="playertableData"><nobr><span style="color:red">-1.8</span></nobr></td></tr><tr id="plyr5651" class="pncPlayerRow playerTableBgRow1"><td id="slot_5651" class="slot_15 playerSlot" style="font-weight: bold;">DP</td><td class="playertablePlayerName" id="playername_5651" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="5651" teamId="1" cache="true">Jared Allen</a>, Min&nbsp;DE</td><td id="playeredit_5651" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href="http://sports.espn.go.com/nfl/clubhouse?team=sdg" target="_blank">@SD</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911024_16" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911024" target="_blank">Sun 4:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">3</td><td class="playertableStat appliedPoints">1215</td><td class="playertableStat appliedPoints">75.9</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData">--</td><td class="playertableData"><nobr>92.1</nobr></td><td class="playertableData"><nobr>96.4</nobr></td><td class="playertableData"><nobr><span style="color:green">+10.2</span></nobr></td></tr><tr id="plyr13252" class="pncPlayerRow playerTableBgRow0"><td id="slot_13252" class="slot_15 playerSlot" style="font-weight: bold;">DP</td><td class="playertablePlayerName" id="playername_13252" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="13252" teamId="1" cache="true">Eric Berry</a>, KC&nbsp;S</td><td id="playeredit_13252" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href="http://sports.espn.go.com/nfl/clubhouse?team=buf" target="_blank">Buf</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911012_12" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911012" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">8</td><td class="playertableStat appliedPoints">1285</td><td class="playertableStat appliedPoints">80.3</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData">--</td><td class="playertableData"><nobr>90.7</nobr></td><td class="playertableData"><nobr>93.5</nobr></td><td class="playertableData"><nobr><span style="color:green">+10.1</span></nobr></td></tr><tr id="plyr9235" class="pncPlayerRow playerTableBgRow1"><td id="slot_9235" class="slot_17 playerSlot" style="font-weight: bold;">K</td><td class="playertablePlayerName" id="playername_9235" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="9235" teamId="1" cache="true">Rob Bironas</a>, Ten&nbsp;K</td><td id="playeredit_9235" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=5&playerId=70530&seasonId=2011" class="flexpop" instance="_ppc">@Jac</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911030_10" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911030" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">14</td><td class="playertableStat appliedPoints">1235</td><td class="playertableStat appliedPoints">77.2</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=5&playerId=70530&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">21st</span></a></td><td class="playertableData"><nobr>94.5</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr class="playerTableBgRowHead tableHead playertableSectionHeader"><th colspan="3" class="playertableSectionHeaderFirst">BENCH</th><td class="sectionLeadingSpacer"></td><th colspan="2">Wk 1</th><td class="sectionLeadingSpacer"></td><th colspan="4">2010 SEASON</th><td class="sectionLeadingSpacer"></td><th colspan="5">WEEK 1</th></tr><tr class="playerTableBgRowSubhead tableSubHead"><td width="65px">SLOT</td><td>PLAYER, TEAM POS</td><td width="68px">ACTION</td><td class="sectionLeadingSpacer"></td><td title="Opponent">OPP</td><td title="Game Status">STATUS ET</td><td class="sectionLeadingSpacer"></td><td class="playertableData" title="Position Rank">PRK</td><td class="playertableStat appliedPoints" title="Fantasy Points">PTS</td><td class="playertableStat appliedPoints" title="Average Fantasy Points Per Game">AVG</td><td class="playertableStat appliedPoints" title="Fantasy Points">LAST</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints" title="ESPN Projection">PROJ</td><td class="playertableData" title="Opponent Rank">OPRK</td><td class="playertableData" title="Percent Started">%ST</td><td class="playertableData" title="Percent Owned">%OWN</td><td class="playertableData" title="Change in Percent Owned">+/-</td></tr><tr id="plyr11276" class="pncPlayerRow playerTableBgRow0"><td id="slot_11276" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_11276" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="11276" teamId="1" cache="true">Eddie Royal</a>, Den&nbsp;WR</td><td id="playeredit_11276" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70313&seasonId=2011" class="flexpop" instance="_ppc">Oak</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310912007_7" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310912007" target="_blank">Mon 10:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">37</td><td class="playertableStat appliedPoints">1229.5</td><td class="playertableStat appliedPoints">76.8</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70313&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">9th</span></a></td><td class="playertableData"><nobr>0.4</nobr></td><td class="playertableData"><nobr>1.5</nobr></td><td class="playertableData"><nobr><span style="color:green">+0.7</span></nobr></td></tr><tr id="plyr8523" class="pncPlayerRow playerTableBgRow1"><td id="slot_8523" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_8523" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="8523" teamId="1" cache="true">Marion Barber</a>, Dal&nbsp;RB<a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="1" leagueId="122885" playerId="8523" teamId="1" cache="true"><img src="http://g.espncdn.com/s/ffllm/11/images/icons/sml/news_recent.png" height="12" width="15" border="0" style="margin:0 6px 0 6px" title="Recent News" /></a></td><td id="playeredit_8523" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70220&seasonId=2011" class="flexpop" instance="_ppc">@NYJ</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911020_6" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911020" target="_blank">Sun 8:20</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">60</td><td class="playertableStat appliedPoints">663</td><td class="playertableStat appliedPoints">41.4</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70220&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">3rd</span></a></td><td class="playertableData"><nobr>0.5</nobr></td><td class="playertableData"><nobr>5.6</nobr></td><td class="playertableData"><nobr><span style="color:red">-1.7</span></nobr></td></tr><tr id="plyr12549" class="pncPlayerRow playerTableBgRow0"><td id="slot_12549" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_12549" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="12549" teamId="1" cache="true">Brandon Pettigrew</a>, Det&nbsp;TE</td><td id="playeredit_12549" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=4&playerId=70427&seasonId=2011" class="flexpop" instance="_ppc">@TB</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911027_8" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911027" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">12</td><td class="playertableStat appliedPoints">972</td><td class="playertableStat appliedPoints">60.8</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=4&playerId=70427&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">6th</span></a></td><td class="playertableData"><nobr>31.0</nobr></td><td class="playertableData"><nobr>85.9</nobr></td><td class="playertableData"><nobr><span style="color:red">-4.5</span></nobr></td></tr><tr id="plyr9639" class="pncPlayerRow playerTableBgRow1"><td id="slot_9639" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_9639" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="9639" teamId="1" cache="true">Anthony Fasano</a>, Mia&nbsp;TE</td><td id="playeredit_9639" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=4&playerId=70417&seasonId=2011" class="flexpop" instance="_ppc">NE</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310912015_15" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310912015" target="_blank">Mon 7:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">18</td><td class="playertableStat appliedPoints">788</td><td class="playertableStat appliedPoints">49.3</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=4&playerId=70417&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">7th</span></a></td><td class="playertableData"><nobr>0.2</nobr></td><td class="playertableData"><nobr>0.8</nobr></td><td class="playertableData"><nobr><span style="color:red">-0.1</span></nobr></td></tr><tr id="plyr12556" class="pncPlayerRow playerTableBgRow0"><td id="slot_12556" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_12556" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="12556" teamId="1" cache="true">Kenny Britt</a>, Ten&nbsp;WR</td><td id="playeredit_12556" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70330&seasonId=2011" class="flexpop" instance="_ppc">@Jac</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911030_10" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911030" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">31</td><td class="playertableStat appliedPoints">1335</td><td class="playertableStat appliedPoints">83.4</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70330&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">17th</span></a></td><td class="playertableData"><nobr>41.3</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr3684" class="pncPlayerRow playerTableBgRow1"><td id="slot_3684" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_3684" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="3684" teamId="1" cache="true">Aaron Kampman</a>, Jac&nbsp;DE&nbsp;&nbsp;<span title="Probable" style="font-weight:bold;color: red;">P</span></td><td id="playeredit_3684" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href="http://sports.espn.go.com/nfl/clubhouse?team=ten" target="_blank">Ten</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911030_30" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911030" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">62</td><td class="playertableStat appliedPoints">395</td><td class="playertableStat appliedPoints">24.7</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData">--</td><td class="playertableData"><nobr>25.4</nobr></td><td class="playertableData"><nobr>28.2</nobr></td><td class="playertableData"><nobr><span style="color:green">+19.3</span></nobr></td></tr><tr id="plyr10531" class="pncPlayerRow playerTableBgRow0"><td id="slot_10531" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_10531" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="10531" teamId="1" cache="true">Stewart Bradley</a>, Phi&nbsp;LB<a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="1" leagueId="122885" playerId="10531" teamId="1" cache="true"><img src="http://g.espncdn.com/s/ffllm/11/images/icons/sml/news_recent.png" height="12" width="15" border="0" style="margin:0 6px 0 6px" title="Recent News" /></a></td><td id="playeredit_10531" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href="http://sports.espn.go.com/nfl/clubhouse?team=stl" target="_blank">@StL</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911014_21" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911014" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">74</td><td class="playertableStat appliedPoints">710</td><td class="playertableStat appliedPoints">44.4</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData">--</td><td class="playertableData"><nobr>0.0</nobr></td><td class="playertableData"><nobr>0.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr8644" class="pncPlayerRow playerTableBgRow1"><td id="slot_8644" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_8644" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="8644" teamId="1" cache="true">Matt Cassel</a>, KC&nbsp;QB</td><td id="playeredit_8644" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=1&playerId=70102&seasonId=2011" class="flexpop" instance="_ppc">Buf</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911012_12" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911012" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">13</td><td class="playertableStat appliedPoints">2291.4</td><td class="playertableStat appliedPoints">143.2</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=1&playerId=70102&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">18th</span></a></td><td class="playertableData"><nobr>12.7</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr8440" class="pncPlayerRow playerTableBgRow0"><td id="slot_8440" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_8440" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="8440" teamId="1" cache="true">Jason Campbell</a>, Oak&nbsp;QB</td><td id="playeredit_8440" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=1&playerId=70107&seasonId=2011" class="flexpop" instance="_ppc">@Den</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310912007_13" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310912007" target="_blank">Mon 10:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">23</td><td class="playertableStat appliedPoints">1626.8</td><td class="playertableStat appliedPoints">101.7</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=1&playerId=70107&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">28th</span></a></td><td class="playertableData"><nobr>2.1</nobr></td><td class="playertableData"><nobr>26.1</nobr></td><td class="playertableData"><nobr><span style="color:red">-6.1</span></nobr></td></tr><tr id="plyr10456" class="pncPlayerRow playerTableBgRow1"><td id="slot_10456" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_10456" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="10456" teamId="1" cache="true">Marshawn Lynch</a>, Sea&nbsp;RB</td><td id="playeredit_10456" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70225&seasonId=2011" class="flexpop" instance="_ppc">@SF</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911025_26" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911025" target="_blank">Sun 4:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">39</td><td class="playertableStat appliedPoints">1187</td><td class="playertableStat appliedPoints">74.2</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70225&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">12th</span></a></td><td class="playertableData"><nobr>28.3</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr13209" class="pncPlayerRow playerTableBgRow0"><td id="slot_13209" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_13209" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="13209" teamId="1" cache="true">Joe McKnight</a>, NYJ&nbsp;RB</td><td id="playeredit_13209" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70206&seasonId=2011" class="flexpop" instance="_ppc">Dal</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911020_20" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911020" target="_blank">Sun 8:20</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">87</td><td class="playertableStat appliedPoints">312</td><td class="playertableStat appliedPoints">19.5</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70206&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">11th</span></a></td><td class="playertableData"><nobr>0.1</nobr></td><td class="playertableData"><nobr>0.4</nobr></td><td class="playertableData"><nobr><span style="color:red">-0.2</span></nobr></td></tr><tr id="plyr9307" class="pncPlayerRow playerTableBgRow1"><td id="slot_9307" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_9307" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="9307" teamId="1" cache="true">Nate Washington</a>, Ten&nbsp;WR</td><td id="playeredit_9307" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70330&seasonId=2011" class="flexpop" instance="_ppc">@Jac</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911030_10" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911030" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">53</td><td class="playertableStat appliedPoints">1069</td><td class="playertableStat appliedPoints">66.8</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70330&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">17th</span></a></td><td class="playertableData"><nobr>0.4</nobr></td><td class="playertableData"><nobr>1.9</nobr></td><td class="playertableData"><nobr><span style="color:red">-0.9</span></nobr></td></tr><tr id="plyr12730" class="pncPlayerRow playerTableBgRow0"><td id="slot_12730" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_12730" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="12730" teamId="1" cache="true">LaRod Stephens-Howling</a>, Ari&nbsp;RB</td><td id="playeredit_12730" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70229&seasonId=2011" class="flexpop" instance="_ppc">Car</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911022_22" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911022" target="_blank">Sun 4:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">35</td><td class="playertableStat appliedPoints">1228</td><td class="playertableStat appliedPoints">76.8</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70229&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">30th</span></a></td><td class="playertableData"><nobr>0.0</nobr></td><td class="playertableData"><nobr>0.2</nobr></td><td class="playertableData"><nobr><span style="color:red">-0.2</span></nobr></td></tr><tr id="plyr11362" class="pncPlayerRow playerTableBgRow1"><td id="slot_11362" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_11362" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="11362" teamId="1" cache="true">Ryan Torain</a>, WSH&nbsp;RB</td><td id="playeredit_11362" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70219&seasonId=2011" class="flexpop" instance="_ppc">NYG</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911028_28" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911028" target="_blank">Sun 4:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">36</td><td class="playertableStat appliedPoints">1227</td><td class="playertableStat appliedPoints">87.6</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70219&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">9th</span></a></td><td class="playertableData"><nobr>10.1</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr9475" class="pncPlayerRow playerTableBgRow0"><td id="slot_9475" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_9475" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="9475" teamId="1" cache="true">Ryan Grant</a>, GB&nbsp;RB&nbsp;&nbsp;<span title="Probable" style="font-weight:bold;color: red;">P</span></td><td id="playeredit_9475" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70218&seasonId=2011" class="flexpop" instance="_ppc">NO</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310908009_9" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310908009" target="_blank">Thu 8:30</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">141</td><td class="playertableStat appliedPoints">45</td><td class="playertableStat appliedPoints">2.8</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70218&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">18th</span></a></td><td class="playertableData"><nobr>36.8</nobr></td><td class="playertableData"><nobr>100.0</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="plyr9266" class="pncPlayerRow playerTableBgRow1"><td id="slot_9266" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_9266" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="9266" teamId="1" cache="true">Jim Leonhard</a>, NYJ&nbsp;S&nbsp;&nbsp;<span title="Probable" style="font-weight:bold;color: red;">P</span></td><td id="playeredit_9266" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href="http://sports.espn.go.com/nfl/clubhouse?team=dal" target="_blank">Dal</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911020_20" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911020" target="_blank">Sun 8:20</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">33</td><td class="playertableStat appliedPoints">958</td><td class="playertableStat appliedPoints">59.9</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData">--</td><td class="playertableData"><nobr>0.0</nobr></td><td class="playertableData"><nobr>0.0</nobr></td><td class="playertableData"><nobr><span style="color:red">-3.7</span></nobr></td></tr><tr id="plyr12489" class="pncPlayerRow playerTableBgRow0"><td id="slot_12489" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_12489" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="12489" teamId="1" cache="true">Donald Brown</a>, Ind&nbsp;RB</td><td id="playeredit_12489" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70234&seasonId=2011" class="flexpop" instance="_ppc">@Hou</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911034_11" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911034" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">52</td><td class="playertableStat appliedPoints">832</td><td class="playertableStat appliedPoints">52.0</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70234&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">23rd</span></a></td><td class="playertableData"><nobr>0.4</nobr></td><td class="playertableData"><nobr>4.6</nobr></td><td class="playertableData"><nobr><span style="color:red">-0.6</span></nobr></td></tr><tr id="plyr12724" class="pncPlayerRow playerTableBgRow1"><td id="slot_12724" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_12724" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="12724" teamId="1" cache="true">Bernard Scott</a>, Cin&nbsp;RB</td><td id="playeredit_12724" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70205&seasonId=2011" class="flexpop" instance="_ppc">@Cle</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911005_4" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911005" target="_blank">Sun 1:00</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">41</td><td class="playertableStat appliedPoints">1036</td><td class="playertableStat appliedPoints">64.8</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70205&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:red">10th</span></a></td><td class="playertableData"><nobr>0.2</nobr></td><td class="playertableData"><nobr>2.6</nobr></td><td class="playertableData"><nobr><span style="color:red">-1.8</span></nobr></td></tr><tr id="plyr12499" class="pncPlayerRow playerTableBgRow0"><td id="slot_12499" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_12499" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="12499" teamId="1" cache="true">Mike Goodson</a>, Car&nbsp;RB</td><td id="playeredit_12499" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70222&seasonId=2011" class="flexpop" instance="_ppc">@Ari</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911022_29" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911022" target="_blank">Sun 4:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">23</td><td class="playertableStat appliedPoints">1469</td><td class="playertableStat appliedPoints">91.8</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=2&playerId=70222&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">31st</span></a></td><td class="playertableData"><nobr>1.8</nobr></td><td class="playertableData"><nobr>81.8</nobr></td><td class="playertableData"><nobr><span style="color:red">-8.2</span></nobr></td></tr><tr id="plyr9835" class="pncPlayerRow playerTableBgRow1"><td id="slot_9835" class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td class="playertablePlayerName" id="playername_9835" style=""><a href="" class="flexpop" content="tabs#ppc" instance="_ppc" fpopHeight="357px" fpopWidth="490px" tab="null" leagueId="122885" playerId="9835" teamId="1" cache="true">Ben Obomanu</a>, Sea&nbsp;WR</td><td id="playeredit_9835" class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td><div><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70325&seasonId=2011" class="flexpop" instance="_ppc">@SF</a></div></td><td class="gameStatusDiv"><a class="gamestatus_310911025_26" href="http://sports-ak.espn.go.com/nfl/preview?gameId=310911025" target="_blank">Sun 4:15</a></td><td class="sectionLeadingSpacer"></td><td class="playertableData">65</td><td class="playertableStat appliedPoints">856</td><td class="playertableStat appliedPoints">53.5</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData"><a href content="ajax#/ffl/format/pvopop/summary?leagueId=122885&positionId=3&playerId=70325&seasonId=2011" class="flexpop" instance="_ppc" style="text-decoration: none; cursor: pointer;"><span style="color:green">28th</span></a></td><td class="playertableData"><nobr>0.1</nobr></td><td class="playertableData"><nobr>0.1</nobr></td><td class="playertableData"><nobr>+0</nobr></td></tr><tr id="pncEmptyRow" class="pncPlayerRow emptyRow"><td class="slot_20 playerSlot" style="font-weight: bold;">Bench</td><td>&nbsp;</td><td class="playerEditSlot"><div class="pncButton pncButtonPH"></div></td><td class="sectionLeadingSpacer"></td><td></td><td></td><td class="sectionLeadingSpacer"></td><td class="playertableData">--</td><td class="playertableStat appliedPoints">--</td><td class="playertableStat appliedPoints">--</td><td class="playertableStat appliedPoints">--</td><td class="sectionLeadingSpacer"></td><td class="playertableStat appliedPoints">--</td><td class="playertableData">--</td><td class="playertableData">--</td><td class="playertableData">--</td><td class="playertableData">--</td></tr></table></td></tr></table><div style="margin: 10px 0 0 0; height: 30px;" class="pncTopArea"><div class="pncTopButton pncTopButtonText" id="pncSaveRoster1" onclick="rosterManager.saveRoster();">Submit</div><span style="display: none;" id="rosterSavingSpinner1" class="rosterSavingSpinner"><img src="http://g.espncdn.com/s/ffllm/11/images/playerTableTabLoad.gif" class="rosterSavingSpinnerImage" /></span><span id="rosterSaveStatus1" class="rosterSaveStatus"></span></div><div style="padding: 3px;" class="bodyCopy"> 
+<a href="/ffl/clubhouse?leagueId=122885&teamId=1&scoringPeriodId=1&pnc=off">Use Classic Clubhouse</a></div> 
+</form><br /><script type="text/javascript">pncInitPlayersAndSlots = function() {rosterManager.createSlot({slotCategoryId: 0, fullAbbrev: "QB", abbrev: "QB"});rosterManager.createSlot({slotCategoryId: 2, fullAbbrev: "RB", abbrev: "RB"});rosterManager.createSlot({slotCategoryId: 2, fullAbbrev: "RB", abbrev: "RB"});rosterManager.createSlot({slotCategoryId: 3, fullAbbrev: "RB/WR", abbrev: "RB/WR"});rosterManager.createSlot({slotCategoryId: 4, fullAbbrev: "WR", abbrev: "WR"});rosterManager.createSlot({slotCategoryId: 4, fullAbbrev: "WR", abbrev: "WR"});rosterManager.createSlot({slotCategoryId: 5, fullAbbrev: "WR/TE", abbrev: "WR/TE"});rosterManager.createSlot({slotCategoryId: 6, fullAbbrev: "TE", abbrev: "TE"});rosterManager.createSlot({slotCategoryId: 10, fullAbbrev: "LB", abbrev: "LB"});rosterManager.createSlot({slotCategoryId: 11, fullAbbrev: "DL", abbrev: "DL"});rosterManager.createSlot({slotCategoryId: 14, fullAbbrev: "DB", abbrev: "DB"});rosterManager.createSlot({slotCategoryId: 15, fullAbbrev: "DP", abbrev: "DP"});rosterManager.createSlot({slotCategoryId: 15, fullAbbrev: "DP", abbrev: "DP"});rosterManager.createSlot({slotCategoryId: 17, fullAbbrev: "K", abbrev: "K"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createSlot({slotCategoryId: 20, fullAbbrev: "Bench", abbrev: "BE"});rosterManager.createPlayer({playerId: 2330, firstName: "Tom", lastName: "Brady", initialSlotCategoryId: 0, eligibleSlotCategoryIds: [0, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 0, leafSlotCategoryId: 0});rosterManager.createPlayer({playerId: 8419, firstName: "Cedric", lastName: "Benson", initialSlotCategoryId: 2, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 13213, firstName: "LeGarrette", lastName: "Blount", initialSlotCategoryId: 2, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 5941, firstName: "Wes", lastName: "Welker", initialSlotCategoryId: 3, eligibleSlotCategoryIds: [3, 4, 5, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 4});rosterManager.createPlayer({playerId: 12569, firstName: "Percy", lastName: "Harvin", initialSlotCategoryId: 4, eligibleSlotCategoryIds: [3, 4, 5, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 4});rosterManager.createPlayer({playerId: 12579, firstName: "Jeremy", lastName: "Maclin", initialSlotCategoryId: 4, eligibleSlotCategoryIds: [3, 4, 5, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 4});rosterManager.createPlayer({playerId: 12563, firstName: "Michael", lastName: "Crabtree", initialSlotCategoryId: 5, eligibleSlotCategoryIds: [3, 4, 5, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 4});rosterManager.createPlayer({playerId: 11325, firstName: "Jermichael", lastName: "Finley", initialSlotCategoryId: 6, eligibleSlotCategoryIds: [5, 6, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 6});rosterManager.createPlayer({playerId: 2140, firstName: "Brian", lastName: "Urlacher", initialSlotCategoryId: 10, eligibleSlotCategoryIds: [10, 15, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 3, leafSlotCategoryId: 10});rosterManager.createPlayer({playerId: 8488, firstName: "Justin", lastName: "Tuck", initialSlotCategoryId: 11, eligibleSlotCategoryIds: [11, 15, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 3, leafSlotCategoryId: 9});rosterManager.createPlayer({playerId: 9628, firstName: "Danieal", lastName: "Manning", initialSlotCategoryId: 14, eligibleSlotCategoryIds: [14, 15, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 3, leafSlotCategoryId: 13});rosterManager.createPlayer({playerId: 5651, firstName: "Jared", lastName: "Allen", initialSlotCategoryId: 15, eligibleSlotCategoryIds: [11, 15, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 3, leafSlotCategoryId: 9});rosterManager.createPlayer({playerId: 13252, firstName: "Eric", lastName: "Berry", initialSlotCategoryId: 15, eligibleSlotCategoryIds: [14, 15, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 3, leafSlotCategoryId: 13});rosterManager.createPlayer({playerId: 9235, firstName: "Rob", lastName: "Bironas", initialSlotCategoryId: 17, eligibleSlotCategoryIds: [17, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 5, leafSlotCategoryId: 17});rosterManager.createPlayer({playerId: 11276, firstName: "Eddie", lastName: "Royal", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [3, 4, 5, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 4});rosterManager.createPlayer({playerId: 8523, firstName: "Marion", lastName: "Barber", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 12549, firstName: "Brandon", lastName: "Pettigrew", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [5, 6, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 6});rosterManager.createPlayer({playerId: 9639, firstName: "Anthony", lastName: "Fasano", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [5, 6, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 6});rosterManager.createPlayer({playerId: 12556, firstName: "Kenny", lastName: "Britt", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [3, 4, 5, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 4});rosterManager.createPlayer({playerId: 3684, firstName: "Aaron", lastName: "Kampman", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [11, 15, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 3, leafSlotCategoryId: 9});rosterManager.createPlayer({playerId: 10531, firstName: "Stewart", lastName: "Bradley", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [10, 15, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 3, leafSlotCategoryId: 10});rosterManager.createPlayer({playerId: 8644, firstName: "Matt", lastName: "Cassel", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [0, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 0, leafSlotCategoryId: 0});rosterManager.createPlayer({playerId: 8440, firstName: "Jason", lastName: "Campbell", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [0, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 0, leafSlotCategoryId: 0});rosterManager.createPlayer({playerId: 10456, firstName: "Marshawn", lastName: "Lynch", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 13209, firstName: "Joe", lastName: "McKnight", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 9307, firstName: "Nate", lastName: "Washington", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [3, 4, 5, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 4});rosterManager.createPlayer({playerId: 12730, firstName: "LaRod", lastName: "Stephens-Howling", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 11362, firstName: "Ryan", lastName: "Torain", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 9475, firstName: "Ryan", lastName: "Grant", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 9266, firstName: "Jim", lastName: "Leonhard", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [14, 15, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 3, leafSlotCategoryId: 13});rosterManager.createPlayer({playerId: 12489, firstName: "Donald", lastName: "Brown", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 12724, firstName: "Bernard", lastName: "Scott", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 12499, firstName: "Mike", lastName: "Goodson", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [2, 3, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 1, leafSlotCategoryId: 2});rosterManager.createPlayer({playerId: 9835, firstName: "Ben", lastName: "Obomanu", initialSlotCategoryId: 20, eligibleSlotCategoryIds: [3, 4, 5, 20], locked: false, droppable: true, onUndroppableList: false,immovable: false, statCategoryId: 2, leafSlotCategoryId: 4});};</script><script type="text/javascript">RosterManager.PLAYERS_GROUPED_BY_STAT_CAT = false;RosterManager.NON_TABLE_VIEW = false;</script></div><script type="text/javascript"> 
+ 
+var rosterManager, initPncRows, pncInitPlayersAndSlots;
+jQuery(document).ready(function() {
+ 
+ 
+ 
+RosterManager.SLOT_CATEGORY_ID_BENCH = 20;
+RosterManager.SLOT_CATEGORY_ID_IR = 21;
+RosterManager.BENCH_FULL_ABBREV = 'Bench';
+RosterManager.BENCH_ABBREV = 'BE';
+RosterManager.BUTTONS_IMAGE = 'http://g.espncdn.com/s/ffllm/11/';
+RosterManager.BUTTON_CLASS = 'pncButton';
+RosterManager.BUTTON_CLASS_PLACEHOLDER = 'pncButtonPH';
+RosterManager.BUTTON_CLASS_MOVE = 'pncButtonMove';
+RosterManager.BUTTON_CLASS_MOVE_SELECTED = 'pncButtonMoveSelected';
+RosterManager.BUTTON_CLASS_HERE = 'pncButtonHere';
+RosterManager.BUTTON_CLASS_DROP = 'pncButtonDrop2';
+RosterManager.BUTTON_CLASS_DROPPED = 'pncButtonDropped';
+RosterManager.BUTTON_CLASS_LOCKED = 'pncButtonLocked';
+RosterManager.BUTTON_CLASS_UNDROPPABLE = 'pncButtonUndroppable';
+RosterManager.BUTTON_CLASS_ACTIVATE = 'pncButtonActivate';
+RosterManager.BUTTON_CLASS_ACTIVATE_2 = 'pncButtonActivate2';
+RosterManager.BUTTON_CLASS_ACTIVATE_SELECTED = 'pncButtonActivateSelected';
+ 
+	RosterManager.BUTTON_CLASS_TO_IR = 'pncButtonToIR';
+	RosterManager.BUTTON_CLASS_TO_IR_2 = 'pncButtonToIR2'
+	RosterManager.BUTTON_CLASS_TO_IR_SELECTED = 'pncButtonToIRSelected';
+ 
+RosterManager.EDIT_CELL_PREFIX = 'pncEditSlot_';
+RosterManager.ROW_PREFIX = 'pncPlayerRow_';
+RosterManager.ROW_CLASSNAME = 'pncPlayerRow';
+RosterManager.SLOT_CELL_PREFIX = 'pncSlot_';
+RosterManager.EMPTY_ROW_ID = 'pncEmptyRow';
+RosterManager.EMPTY_ROW_CLASS = 'emptyRow';
+// INITIALIZED IN format/playerTable or playertable/buildtable
+//RosterManager.PLAYERS_GROUPED_BY_STAT_CAT = false;
+RosterManager.STAT_CATS = null;
+RosterManager.SAVE_URL = '/pnc/saveRoster';
+RosterManager.LAST_SAVED_CELL_ID = 'rosterManagerLastSaved';
+RosterManager.UNDO_STACK_DIV = 'undoStackDiv';
+RosterManager.UNDO_STACK_MOVE_CLASS = 'undoStackMove';
+RosterManager.UNDO_BUTTON_ID = 'pncTopUndoButton';
+RosterManager.RESET_BUTTON_ID = 'pncTopResetButton';
+RosterManager.BUTTON_CLASS_DISABLED = 'pncTopButtonTextDisabled';
+RosterManager.ROSTER_SAVING_SPINNER_COUNT = 2;
+RosterManager.ROSTER_SAVING_SPINNER_ID = 'rosterSavingSpinner';
+RosterManager.PNC_STATUS_ID = 'pncStatusDiv';
+RosterManager.SAVE_STATUS_DETAILS_CLASSNAME = 'pncSaveStatusDiv';
+RosterManager.SAVE_STATUS_DETAILS_CLASSNAME_OVER = 'pncSaveStatusDivOver';
+RosterManager.ROSTER_SAVE_STATUS_COUNT = 2;
+RosterManager.ROSTER_SAVE_STATUS_ID = 'rosterSaveStatus';
+RosterManager.ROSTER_SAVE_STATUS_CLASS = 'rosterSaveStatus';
+RosterManager.ROSTER_SAVE_SUCCESS_RESPONSE = 'Success';
+RosterManager.ROSTER_SAVE_REDIRECT_RESPONSE = 'Redirect: ';
+RosterManager.ROSTER_SAVE_SIGNIN_RESPONSE = 'Signin: ';
+RosterManager.CONFIRM_URL = '/ffl/confirm?leagueId=122885&teamId=1&scoringPeriodId=1&redir=%2Fffl%2Fclubhouse%3FleagueId%3D122885%26teamId%3D1%26scoringPeriodId%3D1&redirCancel=%2Fffl%2Fclubhouse%3FleagueId%3D122885%26teamId%3D1';
+RosterManager.SIGNIN_URL = 'http://games.espn.go.com/ffl/clubhouse?leagueId=122885&teamId=1';
+RosterManager.ROSTER_SAVE_SUCCESS_CLASS = 'rosterSavedSuccess';
+RosterManager.ROSTER_SAVE_FAILED_CLASS = 'rosterSavedFailed';
+RosterManager.ROSTER_MOVE_SAVED_CLASS = 'rosterMoveSaved';
+RosterManager.TABLE_ROW_BG_CLASSES = ["playerTableBgRow0", "playerTableBgRow1"];
+RosterManager.SLOT_CHANGED_CLASS = 'slotChanged';
+RosterManager.IR_ROW_CLASS = 'irRow';
+RosterManager.UNDO_STACK_DIV_CLASSNAME = 'undoStackDiv';
+RosterManager.UNDO_STACK_DIV_CLASSNAME_OVER = 'undoStackDivOver';
+RosterManager.UNSAVED_CHANGES_CONFIRM = "You have unsaved changes to your roster. Unsaved changes will be lost if you continue without saving.";
+RosterManager.UNSAVED_CHANGES_CONFIRM_FULL = "Are you sure you want to navigate away from this page?\n\nYou have unsaved changes to your roster. Unsaved changes will be lost if you continue without saving.\n\nPress OK to continue, or Cancel to stay on the current page.";
+RosterManager.SAVE_CHANGES_BUTTON_COUNT = 2;
+RosterManager.SAVE_CHANGES_BUTTON_ID = 'pncSaveRoster';
+RosterManager.SAVE_NECESSARY_CLASS = 'pncTopButtonActive';
+RosterManager.NO_MOVES_MADE_DIV = 'noMovesMadeMessage';
+RosterManager.MODE_ROSTER = 0;
+RosterManager.MODE_IR = 1;
+RosterManager.MODE_DROP = 2;
+RosterManager.MAX_ROSTER_SIZE = 34;
+RosterManager.DROPPED_PLAYER_ROW_ID = 'droppedPlayer_';
+RosterManager.TRANSACTION_CODE_MOVE = 1;
+RosterManager.TRANSACTION_CODE_DROP = 3;
+RosterManager.ACTIVATE_ERROR_ROSTER_SIZE = 1;
+RosterManager.ACTIVATE_ERROR_SLOT_LIMIT = 2;
+RosterManager.SLOT_LIMIT_UNLIMITED = 99;
+RosterManager.ROSTER_SIZE_NOTE_DIV = 'rosterSizeNote';
+RosterManager.ROSTER_OVERSIZE_NOTE_MESSAGE = 'Your roster exceeds the allowed maximum. You will need to drop players to save these moves.';
+RosterManager.ROSTER_ERROR_DIV_ID = 'clubhouseRosterErrorsDiv';
+RosterManager.PLAYER_SELECTED_HIGHLIGHT_CLASS = 'pncPlayerRowSelected';
+RosterManager.PLAYER_HOVER_HIGHLIGHT_CLASS = 'pncPlayerRowMoveHover';
+RosterManager.PLAYER_CHANGED_HIGHLIGHT_CLASS = 'pncPlayerRowRecentUpdate';
+RosterManager.PLAYER_CHANGED_HIGHLIGHT_DURATION = 1423;
+RosterManager.INELIGIBLE_SLOT_CLASS = 'ineligibleSlot';
+ 
+ 
+RosterManager.MANAGE_IR_ON_CLUBHOUSE = true
+ 
+RosterManager.SLOT_LIMITS = new Object();
+RosterManager.SLOT_ABBREVS = new Object();RosterManager.SLOT_LIMITS[0] = 1000; RosterManager.SLOT_ABBREVS[0] = "QB";
+RosterManager.SLOT_LIMITS[1] = 0; RosterManager.SLOT_ABBREVS[1] = "TQB";
+RosterManager.SLOT_LIMITS[2] = 1000; RosterManager.SLOT_ABBREVS[2] = "RB";
+RosterManager.SLOT_LIMITS[4] = 1000; RosterManager.SLOT_ABBREVS[4] = "WR";
+RosterManager.SLOT_LIMITS[6] = 1000; RosterManager.SLOT_ABBREVS[6] = "TE";
+RosterManager.SLOT_LIMITS[8] = 1000; RosterManager.SLOT_ABBREVS[8] = "DT";
+RosterManager.SLOT_LIMITS[9] = 1000; RosterManager.SLOT_ABBREVS[9] = "DE";
+RosterManager.SLOT_LIMITS[10] = 1000; RosterManager.SLOT_ABBREVS[10] = "LB";
+RosterManager.SLOT_LIMITS[12] = 1000; RosterManager.SLOT_ABBREVS[12] = "CB";
+RosterManager.SLOT_LIMITS[13] = 1000; RosterManager.SLOT_ABBREVS[13] = "S";
+RosterManager.SLOT_LIMITS[16] = 0; RosterManager.SLOT_ABBREVS[16] = "D/ST";
+RosterManager.SLOT_LIMITS[17] = 1000; RosterManager.SLOT_ABBREVS[17] = "K";
+RosterManager.SLOT_LIMITS[18] = 0; RosterManager.SLOT_ABBREVS[18] = "P";
+RosterManager.SLOT_LIMITS[19] = 0; RosterManager.SLOT_ABBREVS[19] = "HC";
+ 
+	
+	var mode = RosterManager.MODE_ROSTER;
+	rosterManager = new RosterManager('rosterManager', mode);
+	rosterManager.scoringPeriodId =  1;
+	window.onbeforeunload = function() { 
+		if (rosterManager.rosterSaver.saveNecessary()) return RosterManager.UNSAVED_CHANGES_CONFIRM;
+	};
+ 
+	pncInitPlayersAndSlots();
+	var statCats = new Array();
+	for (var playerId in rosterManager.players) {
+		var statCatId = rosterManager.getPlayerById(playerId).statCategoryId;
+		if (statCatId != null && !statCats.contains(statCatId)) statCats.push(statCatId);
+	}
+	RosterManager.STAT_CATS = statCats;
+ 
+	initPncRows = function() {
+		var playerRows = new Array();
+		var docTables = document.getElementsByTagName('table');
+ 
+		for (var i = 0; i < docTables.length; i++) {
+			var tbl	= docTables[i];
+			if (tbl.className && tbl.className.indexOf('playerTableTable') >= 0) {
+				for (var j = 0; j < tbl.rows.length; j++) {
+					var tblRow = tbl.rows[j];
+					if (tblRow.className && tblRow.className.indexOf('pncPlayerRow') >= 0) playerRows.push(tblRow);
+				}
+			}
+		}
+ 
+		for (var i = 0; i < playerRows.length; i++) {
+			var playerRow = playerRows[i];
+			var isEmpty = (!playerRow.id || playerRow.id.indexOf('plyr') < 0);
+			if (!isEmpty) {
+				var playerId = parseInt(playerRow.id.substring('plyr'.length));
+				var thisPlayer = rosterManager.getPlayerById(playerId);
+				if (thisPlayer) {
+					var slotId = thisPlayer.currentSlot.slotId;
+					playerRow.id = RosterManager.ROW_PREFIX + slotId;
+					var slotFound = false;
+					var editFound = false;
+					for (var j = 0; j < playerRow.childNodes.length; j++) {
+						var cell = playerRow.childNodes[j];
+						if (cell.className && cell.className.indexOf('playerSlot') >= 0) {
+							cell.id = RosterManager.SLOT_CELL_PREFIX + slotId;
+							slotFound = true;
+ 
+						} else if (cell.className && cell.className.indexOf('playerEditSlot') >= 0) {
+							cell.id = RosterManager.EDIT_CELL_PREFIX + slotId;
+							editFound = true;
+						}
+						if (slotFound && editFound) break;
+ 
+					}
+				}
+			} else if (playerRow.id.indexOf(RosterManager.EMPTY_ROW_ID) < 0) {
+				var slotId = -1;
+				for (var j = 0; j < playerRow.childNodes.length; j++) {
+					var cell = playerRow.childNodes[j];
+					if (cell.className && cell.className.indexOf('playerSlot') >= 0) {
+						var cn = cell.className;
+						var slotCategoryId = parseInt(cn.substring('slot_'.length, cn.indexOf(' ')));
+						var slots = rosterManager.getSlotsBySlotCategoryId(slotCategoryId);
+						for (var k = 0; k < slots.length; k++) {
+							var slot = slots[k];
+							if (slot.isEmpty && !slot.rowInited) {
+								slotId = slot.slotId;
+								playerRow.id = RosterManager.ROW_PREFIX + slotId;
+								cell.id = RosterManager.SLOT_CELL_PREFIX + slotId;
+								slot.rowInited = true;
+								break;
+							}
+						}
+ 
+					} else if (slotId > -1 && cell.className && cell.className.indexOf('playerEditSlot') >= 0) {
+						cell.id = RosterManager.EDIT_CELL_PREFIX + slotId;
+					}
+				}
+			}
+		}
+	};
+	if (!rosterManager.isNonTableDisplay()) {
+		rosterManager.benchManager.initializeBenchRowPrototypes();
+		initPncRows();
+		rosterManager.initButtons();
+	}
+	rosterManager.rosterSaver.showIfSaveNecessary();
+});</script></div></div><div class="games-footercol"><div class="faqft_bg"><div class="faqft_header"><a href="/ffl/content?page=fflrulesindex2011" target="_blank"><div class="faqft_hdimage_fh"></div></a><div class="faqft_hdimage_hl"></div></div><div id="faq_qlinks" class="faq_qlinks"><ul><li><a href="" class="flexpop" content="ajax#/ffl/resources/help/faq?name=i-cannot-remember-my-user-name-and-or-password&popup=true" cache="true" instance="_faq">I cannot remember my user name and/or password.  What can I do?</a></li><li><a href="" class="flexpop" content="ajax#/ffl/resources/help/faq?name=is-espn-fantasy-football-really-free&popup=true" cache="true" instance="_faq">Is ESPN Fantasy Football really free?</a></li><li><a href="" class="flexpop" content="ajax#/ffl/resources/help/faq?name=Is-there-a-limit-to-how-many-free-leagues-I-am-able-to-own-or-create&popup=true" cache="true" instance="_faq">Is there a limit to how many free leagues I am able to own or create?</a></li></ul><ul><li><a href="" class="flexpop" content="ajax#/ffl/resources/help/faq?name=what-are-lm-powers-and-who-has-them&popup=true" cache="true" instance="_faq">What are LM powers and who has them?</a></li><li><a href="" class="flexpop" content="ajax#/ffl/resources/help/faq?name=whats-new-in-2011&popup=true" cache="true" instance="_faq">What's new in 2011?</a></li><li><a href="" class="flexpop" content="ajax#/ffl/resources/help/faq?name=where-can-i-learn-more-about-how-to-play-espn-fantasy-football&popup=true" cache="true" instance="_faq">Where can I learn more about how to play ESPN Fantasy Football?</a></li></ul></ul><div class="clear"></div><div class="faqft_ft"><img src="http://games-ak.espn.go.com/s/lm/images/arrow.jpg"><a style="text-decoration:none;" href="/ffl/content?page=fflrulesfaq2011" target="_blank">MORE FAQ'S</a></div></div></div> 
+<script type="text/javascript"> 
+function showHideFAQs() {
+	if (jQuery('#faq_qlinks').is(':visible')) {	
+		jQuery('#faq_qlinks').hide();
+		jQuery("#faqft_moreless_btn").html("Expand Help Topics +");
+	} else { 
+		jQuery('#faq_qlinks').show(); 
+		jQuery("#faqft_moreless_btn").html("Collapse Help Topics -");
+	}
+}
+</script><div style="margin:25px 0px 0px 0px;"><script type="text/javascript">adsonar_placementId=1508426;adsonar_pid=2187771;adsonar_ps=-1;adsonar_zw=956;adsonar_zh=150;adsonar_jv='ads.espn.adsonar.com';</script><script language="JavaScript" src="http://js.adsonar.com/js/adsonar.js"></script></div></div></div> 
+<br><br> 
+</div> 
+</div> 
+</div> 
+<!-- ////////// start: Transitional Footer ////////// --> 
+<!--start transitional elements wrapper --> 
+<div class="transitional-elements"> 
+<!--[if IE 6]><div class="ie6"><![endif]--> 
+<!--[if IE 7]><div class="ie7"><![endif]--> 
+<!--[if IE 8]><div class="ie8"><![endif]--> 
+<div id="trans-footer" class="container"> 
+<p><strong><a href="http://www.espn.com">ESPN.com</a></strong>  |  <a href="https://r.espn.go.com/espn/memberServices">Member Services</a> | <a href="http://games.espn.go.com/frontpage">Fantasy Games</a> | <a href="http://games.espn.go.com/ffl/content?page=fflrulesindex2011">Help</a> | <a href="http://corporate.disney.go.com/corporate/pp_espn.html#ThirdParties">Interest-Based Ads</a> | <a href="http://games.espn.go.com/ffl/feedback">Give Us Your Feedback</a></p> 
+	
+<p>Call <strong>1-888-549-ESPN</strong> for help on all things Fantasy</p> 
+ 
+<p>Copyright &copy;2011 ESPN Internet Ventures. <a href="http://disney.go.com/corporate/legal/terms.html">Terms of Use</a> and <a href="http://disney.go.com/corporate/privacy/pp_espn.html">Privacy Policy and Safety Information/Your California Privacy Rights</a> are applicable to this site.<br><br>Officially Licensed Product of NFL PLAYERS. Visit <a href="http://www.nflplayers.com" target="new">www.nflplayers.com</a>.</p> 
+</div> 
+<!-- end transitional elements wrapper --> 
+<!--[if lte IE 8]></div><![endif]--> 
+</div> 
+<!-- ////////// end: Transitional Footer ////////// --> 
+</div> 
+<div id="nav-wrapper" class="container"> 
+<div id="nav-wrapper-container"> 
+<div id="nav-main"> 
+<!-- begin site nav --> 
+<ul id="nav-main-list" class="top"> 
+	<!-- start: Menuitem :: MyTAB --> 
+	<li id="menu-myespn" class="last myespn"> 
+		<a class="myespn" ref="#">MyESPN</a> 
+	</li> 
+	<!-- start: Menuitem :: NFL --> 
+	<li id="menu-nfl" class="sport-menu default t-nfl" data-sportid="28"> 
+		<a href="http://espn.go.com/nfl/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_nfl">NFL</a> 
+	</li> 
+	<!-- start: Menuitem :: MLB --> 
+	<li id="menu-mlb" class="sport-menu default t-mlb" data-sportid="10"> 
+		<a href="http://espn.go.com/mlb/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_mlb">MLB</a> 
+	</li> 
+	<!-- start: Menuitem :: NBA --> 
+	<li id="menu-nba" class="sport-menu default t-nba" data-sportid="46"> 
+		<a href="http://espn.go.com/nba/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_nba">NBA</a> 
+	</li> 
+	<!-- start: Menuitem :: NHL --> 
+	<li id="menu-nhl" class="sport-menu default t-nhl" data-sportid="90"> 
+		<a href="http://espn.go.com/nhl/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_nhl">NHL</a> 
+	</li> 
+	<!-- start: Menuitem :: NCAA FB --> 
+	<li id="menu-ncf" class="sport-menu default t-ncf" data-sportid="23"> 
+		<a href="http://espn.go.com/college-football/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_ncf">NCAA FB</a> 
+	</li> 
+	<!-- start: Menuitem :: NCAA BB --> 
+	<li id="menu-ncb" class="sport-menu default t-ncb" data-sportid="41"> 
+		<a href="http://espn.go.com/mens-college-basketball/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_ncb">NCAA BB</a> 
+	</li> 
+	<!-- start: Menuitem :: NASCAR --> 
+	<li id="menu-nascar" class="sport-menu default t-nascar" data-sportid="2020"> 
+		<a href="http://espn.go.com/racing/nascar/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_nascar">NASCAR</a> 
+	</li> 
+	<!-- start: Menuitem :: SOCCER --> 
+	<li id="menu-soccer" class="sport-menu default t-soccer" data-sportid="600"> 
+		<a href="http://espn.go.com/sports/soccer/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_soccer">SOCCER</a> 
+	</li> 
+	<!-- start: Menuitem :: GOLF --> 
+	<li id="menu-golf" class="sport-menu t-golf" data-sportid="1106" style="display: none;"> 
+		<a href="http://espn.go.com/golf/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_golfl">GOLF</a> 
+	</li> 
+	<!-- start: Menuitem :: TENNIS --> 
+	<li id="menu-tennis" class="sport-menu t-tennis" data-sportid="850" style="display: none;"> 
+		<a href="http://espn.go.com/tennis/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_tennis">TENNIS</a> 
+	</li> 
+	<!-- start: Menuitem :: BOXING--> 
+	<li id="menu-boxing" class="sport-menu t-boxing" data-sportid="1000" style="display: none;"> 
+		<a href="http://espn.go.com/boxing/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_boxing">BOXING</a> 
+	</li> 
+	<!-- start: Menuitem :: MMA --> 
+	<li id="menu-mma" class="sport-menu t-mma" data-sportid="3301" style="display: none;"> 
+		<a href="http://espn.go.com/mma/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_mma">MMA</a> 
+	</li> 
+	<!-- start: Menuitem :: ALL SPORTS --> 
+	<li id="menu-allsports" class="nav-allsports t-allsports"> 
+		<a href="http://espn.go.com/sports/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_allsports">MORE SPORTS</a> 
+	</li> 
+	<!-- start: Menuitem :: INSIDER --> 
+	<li id="menu-insider" class="sport-menu t-insider" style="display: none;"> 
+		<a href="http://insider.espn.go.com/insider/index" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_insider">INSIDER</a> 
+	</li> 
+	<!-- start: Menuitem :: SPORTSNATION --> 
+	<li id="menu-sportsnation" class="sport-menu t-sportsnation" style="display: none;"> 
+		<a href="http://espn.go.com/sportsnation/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_sportsnation">SN</a> 
+	</li> 
+	<!-- start: Menuitem :: RADIO & MORE --> 
+	<li id="menu-radio" class="right-menu two-line last t-radio"> 
+	<a href="http://espn.go.com/espnradio/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_radioandmore">RADIO<span>& MORE</span></a> 
+	</li> 
+	<!-- start: Menuitem :: COMMENTARY & P2 --> 
+	<li id="menu-page2" class="right-menu two-line t-page2"> 
+		<a href="http://espn.go.com/espn/page2/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_page2">PAGE 2<span>& COMMENTARY</span></a> 
+	</li> 
+	<!-- start: Menuitem :: FANTASY & GAMES --> 
+	<li id="menu-fantasy" class="right-menu two-line t-fantasy selected"> 
+		<a href="http://games.espn.go.com/frontpage" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_fantasy">FANTASY<span>& GAMES</span></a> 
+	</li> 
+	<!-- start: Menuitem :: WATCH --> 
+	<li id="menu-watch" class="right-menu t-watch"> 
+		<a href="http://espn.go.com/video/" name="&amp;lpos=sitenavdefault&amp;lid=sitenav_watch">WATCH</a> 
+	</li> 
+</ul> 
+<!-- end site nav --></div> 
+<div class="nav-main-secondary"> 
+<ul> 
+<div class="nav-main-secondary"><ul><div class="nav-main-secondary"> 
+<ul> 
+<li class="subnav-frontpage"><a href="http://games.espn.go.com/frontpage/football">Fantasy Football</a></li> 
+<li class="subnav-dk"><a href="http://games.espn.go.com/frontpage/ffldraftkit">Draft Kit</a></li> 
+<li class="subnav-lobby"><a href="http://games.espn.go.com/ffl/mockdraftlobby">Mock Draft Lobby</a></li> 
+<li class="subnav-lobby"><a href="http://games.espn.go.com/ffl/livedraftlobby">Live Draft Lobby</a></li> 
+<li class="subnav-leaders"><a href="http://games.espn.go.com/ffl/leaders?seasonId=2011">Scoring Leaders</a></li> 
+<li class="subnav-tools-projections-sortable"><a href="http://games.espn.go.com/ffl/tools/projections?display=alt&leagueId=122885">Projections</a></li> 
+<!--<li><a href="http://games.espn.go.com/frontpage/fantasyRankings">Weekly Rankings</a></li> --> 
+<li class="subnav-resources-playernews"><a href="http://games.espn.go.com/ffl/resources/playernews">Player News</a></li> 
+<!--<li class="subnav-rules"><a href="http://games.espn.go.com/ffl/resources/leaderboard?leaderboardGroupId=0">Leaderboards</a></li> 
+<li class="subnav-addeddropped"><a href="http://games.espn.go.com/ffl/addeddropped">Added/Dropped</a></li> --> 
+<li class="subnav-pointsagainst"><a href="http://games.espn.go.com/ffl/pointsagainst">Points Against</a></li> 
+<li class="subnav-rules"><a href="http://games.espn.go.com/ffl/content?page=fflrulesindex2011">Rules</a></li> 
+<li class="expandable"><a href="q" name="&lpos=subnav&lid=subnav_Fantasy_FAQ"><span>More</span></a>   
+<div> 
+<dl style="border:none;"> 
+<dd><a href="http://games.espn.go.com/ffl/addeddropped">Added/Dropped</a></dd> 
+<!--<dd><a href="http://insider.espn.go.com/insider/fantasy/football/fantasyscout">Fantasy Scout<img width="8" height="9" style="margin-left:3px;" alt="Insider" src="http://a.espncdn.com/i/design07/mast/tinyin.gif" /></a></dd>--> 
+<dd><a href="http://games.espn.go.com/ffl/tools/statcorrections">Stat Corrections</a></dd> 
+<!--<dd><a href="http://games.espn.go.com/frontpage/ffldraftkit">Draft Kit</a></dd>--> 
+<!--<dd><a href="http://games.espn.go.com/ffl/livedraftresults">Live Draft Results</a></dd>--> 
+<dd><a href="http://games.espn.go.com/ffl/content?page=fflrulesfaq2011">FAQ</a></dd> 
+<dd><a href="http://boards.espn.go.com/boards/mb/mb?sport=fanboard&id=ffl">Message Board</a></dd> 
+<dd><a href="http://games.espn.go.com/ffl/tools/undroppables">Undroppables</a></dd> 
+<dd><a href="http://insider.espn.go.com/insider/fantasy/answerguys/index">Answer Guys</a></dd> 
+</dl> 
+</div> 
+</li> 
+</ul> 
+</div> 
+</ul></div></ul> 
+</div> 
+<script>espn.core.init.nav();</script> 
+</div> 
+</div> 
+</div> 
+</div> 
+</div> 
+</td></tr></table> 
+</div> 
+ 
+ 
+ 
+<!-- SiteCatalyst code version: H.21.3 Copyright 1997-2010 Omniture, Inc. http://www.omniture.com --> 
+<script type="text/javascript"> 
+	var s_account="wdgespfantasy";
+	var omniPageName = "fantasy:football:ffl:clubhouse";
+	
+	var insiderStatus = "",
+	anGen = "",
+	anYear = "",
+	anDateString = "",
+	anLoginStatus = "",
+	undef = 'undefined',
+	callOmniture = function(){
+		if (typeof anCV != "undefined"){anParseLoginBarInfo(anCV);}
+		s_omni.pageName="football:ffl:clubhouse";
+		s_omni.server = window.location.host; // Server from the Host
+		s_omni.channel = "football";
+		s_omni.prop1 = "fantasy";
+		s_omni.prop4 = "game-lm-free-custom";
+		s_omni.prop5 = "football:ffl";
+		s_omni.prop11 = (insiderStatus !== null) ? insiderStatus + ":premium-no" : "premium-no";
+		s_omni.prop17 = "en";
+		s_omni.prop21 = anDateString;
+		s_omni.prop22 = anGen;
+		s_omni.prop25 = "football";
+		s_omni.prop29 = anLoginStatus;
+		s_omni.prop30 = "n";
+		s_omni.hier1 = "football:ffl:clubhouse";
+		s_omni.eVar7 = anYear + ":" + anGen + ":" + anLoginStatus + ":" + s_omni.prop11 + ":";
+		s_omni.eVar9 = "en";
+		s_omni.eVar13 = "football:ffl:clubhouse";
+		s_omni.eVar19 = "football";
+		
+		if (s_omni.prop11=="anonymous:premium-yes" || s_omni.prop11=="insider-no:premium-yes" && typeof s_omni.prop4!="undefined" &&
+			(s_omni.prop4=="story" || s_omni.prop4=="blog")) {
+			if (typeof s_omni.events != "undefined" && s_omni.events!="") {  
+				s_omni.events = s_omni.events+",event8" } 
+			else { s_omni.events="event8" }
+		}
+		anDebugCase = "ver_15Feb11_0_";
+		/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+		var s_code=s_omni.t();
+		if(s_code) {
+			//document.write(s_code);
+			jQuery('body').append(s_code);
+		}
+	};
+	
+ 
+ 
+	jQuery(function($) {
+		// we want to load the analytics files from the cache if possible - so, let's use full $.ajax() calls
+		$.ajax({
+			type:'GET',
+			url: 'http://a.espncdn.com/combiner/c?js=analytics/sOmni.js,analytics/analytics.js,analytics/zf.js,analytics/externalnielsen.js',
+			dataType: 'script',
+			cache: true,
+			success: function() {
+				var lgSrc;
+				if(typeof anCV !== undef && anCV === '' && document.getElementById('form-memberarea') != null) {
+					lgSrc = ('https:' === document.location.protocol) ? 'https://r.espn.go.com/members/util/getUserInfo?cb=runOmnitureIndependently' : 'http://sports.espn.go.com/espn/js/uniloginInLineReplace?cb=runOmnitureIndependently';
+					$.getScript(lgSrc); // we don't want this to be cached - so we'll use the $.getScript() method
+				} else {
+					callOmniture();
+					if (typeof(zf) != "undefined") zf("http://espn.zoomflow.com/zf", "ZoomFlow");
+				}
+			}
+		});
+	}); 
+ 
+</script> 
+<!-- End SiteCatalyst code version: H.21. --></body> 
+</html> 
