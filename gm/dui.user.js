@@ -74,34 +74,26 @@
 		}
 
 		function setColors() {
+			var realPlayerTable = $("table.playerTableTable");
+			var playerTableCopy = realPlayerTable.clone();
+
 			if (showColors) {
-				$("[id^=playername]:contains('\u00a0S')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["S"]);
-				$("[id^=playername]:contains('\u00a0QB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["QB"]);
-				$("[id^=playername]:contains('\u00a0RB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["RB"]);
-				$("[id^=playername]:contains('\u00a0WR')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["WR"]);
-				$("[id^=playername]:contains('\u00a0TE')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["TE"]);
-				$("[id^=playername]:contains('\u00a0DE')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["DE"]);
-				$("[id^=playername]:contains('\u00a0DT')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["DT"]);
-				$("[id^=playername]:contains('\u00a0LB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["LB"]);
-				$("[id^=playername]:contains('\u00a0CB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["CB"]);
-				$(generateSelectors("K")).parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["K"]);
+				playerTableCopy.find("[id^=playername]:contains('\u00a0S')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["S"]);
+				playerTableCopy.find("[id^=playername]:contains('\u00a0QB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["QB"]);
+				playerTableCopy.find("[id^=playername]:contains('\u00a0RB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["RB"]);
+				playerTableCopy.find("[id^=playername]:contains('\u00a0WR')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["WR"]);
+				playerTableCopy.find("[id^=playername]:contains('\u00a0TE')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["TE"]);
+				playerTableCopy.find("[id^=playername]:contains('\u00a0DE')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["DE"]);
+				playerTableCopy.find("[id^=playername]:contains('\u00a0DT')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["DT"]);
+				playerTableCopy.find("[id^=playername]:contains('\u00a0LB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["LB"]);
+				playerTableCopy.find("[id^=playername]:contains('\u00a0CB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["CB"]);
+				playerTableCopy.find(generateSelectors("K")).parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["K"]);
 			}
 			else {
-				/*
-				$("td[id^=playername]:contains('\u00a0QB')").parent().css("background-color", "");
-				$("td[id^=playername]:contains('\u00a0RB')").parent().css("background-color", "");
-				$("td[id^=playername]:contains('\u00a0WR')").parent().css("background-color", "");
-				$("td[id^=playername]:contains('\u00a0TE')").parent().css("background-color", "");
-				$("td[id^=playername]:contains('\u00a0DE')").parent().css("background-color", "");
-				$("td[id^=playername]:contains('\u00a0DT')").parent().css("background-color", "");
-				$("td[id^=playername]:contains('\u00a0LB')").parent().css("background-color", "");
-				$("td[id^=playername]:contains('\u00a0CB')").parent().css("background-color", "");
-				$("td[id^=playername]:contains('\u00a0S')").parent().css("background-color", "");
-				$(generateSelectors("K")).parent().css("background-color", "");
-				*/
-
-				$("[id^=playername]").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", "");
+				playerTableCopy.find("[id^=playername]").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", "");
 			}
+
+			realPlayerTable.replaceWith(playerTableCopy);
 		}
 
 		function toggleShowColors() {

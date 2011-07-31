@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+	<head></head>
+	<body>
+		<script>
+			function fetchDynastyData(callback) {
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function(data) {
+					if (xhr.readyState == 4) {
+						if (xhr.status == 200) {
+							var data = xhr.responseText;
+							callback(data);
+						}
+						else {
+							callback(null);
+						}
+					}
+				};
+	
+				// Note that any URL fetched here must be matched by a permission in
+				// the manifest.json file!
+				var url = "http://thedynastyleague.com/dynastyData.xml";
+				xhr.open("GET", url, true);
+				xhr.send();
+			};
+		
+			function onRequest(request, sender, callback) {
+				if (request.action == 'fetchDynastyData') {
+					fetchDynastyData(callback);
+				}
+			};
+		
+			chrome.extension.onRequest.addListener(onRequest);
+		</script>
+	</body>
+</html>
