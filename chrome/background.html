@@ -17,9 +17,7 @@
 					}
 				};
 	
-				// Note that any URL fetched here must be matched by a permission in
-				// the manifest.json file!
-				var url = "http://thedynastyleague.com/dynastyData.xml";
+				var url = "http://thedynastyleague.com/dynastyData.xml?_=" + Math.random();
 				xhr.open("GET", url, true);
 				xhr.send();
 			};
@@ -27,6 +25,9 @@
 			function onRequest(request, sender, callback) {
 				if (request.action == 'fetchDynastyData') {
 					fetchDynastyData(callback);
+				}
+				else if (request.action == 'getVersion') {
+					callback(chrome.app.getDetails().version);
 				}
 			};
 		

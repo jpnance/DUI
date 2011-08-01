@@ -1,9 +1,10 @@
 $(document).ready(function() {
+	getVersion();
 	setColors();
 	loadDynastyData();
 });
 
-var version = 0.1;
+var version = null;
 var currentYear = 2010;
 
 var positions = new Array();
@@ -11,12 +12,20 @@ var salaries = new Array();
 var starts = new Array();
 var ends = new Array();
 
+function getVersion() {
+	chrome.extension.sendRequest({'action' : 'getVersion'}, useVersion);
+}
+
+function useVersion(fetchedVersion) {
+	version = fetchedVersion;
+	console.log(version);
+}
+
 function loadDynastyData() {
 	chrome.extension.sendRequest({'action' : 'fetchDynastyData'}, onDynastyData);
 }
 
 function onDynastyData(data) {
-	console.log("onDynastyData: ");
 	if (data) {
 		var parser = new DOMParser();
 		var parsedXml = parser.parseFromString(data, "text/xml");
@@ -97,7 +106,6 @@ function onDynastyData(data) {
 					salaryDisplay = "<em>Free Agent</em>";
 				}
 
-				//if (starts[playerId] == null || starts[playerId] == "FA" || ends[playerId] == null) {
 				if (salaries[playerId] == null || salaries[playerId] == 0) {
 					contractDisplay = "";
 					contractTip = "This player is currently a free agent.";
@@ -149,13 +157,11 @@ function onDynastyData(data) {
 					.append(contractDisplay)
 					.attr("title", contractTip)
 				);
-
-				//$("td#" + this.id).parent().css("background-color", positionColors[positions[playerId]]);
 			}
 		);
 	}
 	else {
-		console.log("We've got nothing.");
+		console.log("Unable to fetch Dynasty League data.");
 	}
 }
 
