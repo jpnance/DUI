@@ -31,7 +31,6 @@
 				"http://games.espn.go.com/ffl/watchlist?*leagueId=122885*"
 			],
 			"js": [
-				"jquery-1.6.2.min.js",
 				"dui.js"
 			]
 		}
