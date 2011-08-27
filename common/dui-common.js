@@ -36,14 +36,7 @@ var ends = new Array();
 function onDynastyData(data) {
 	if (data) {
 		var parser = new DOMParser();
-		var parsedXml;
-
-		if (typeof data == "string") {
-			parsedXml = parser.parseFromString(data, "text/xml");
-		}
-		else {
-			parsedXml = parser.parseFromString(data.responseText, "text/xml");
-		}
+		var parsedXml = parser.parseFromString(data, "text/xml");
 
 		var latestVersionString = parsedXml.getElementsByTagName("version")[0].firstChild.nodeValue;
 
@@ -51,7 +44,7 @@ function onDynastyData(data) {
 			var upgrade = confirm("There's a newer version of DUI available.\nWould you like to upgrade to the latest version?");
 
 			if (upgrade) {
-				window.location = "http://thedynastyleague.com/dui/";
+				window.location = upgradeLink;
 			}
 		}
 
@@ -62,9 +55,11 @@ function onDynastyData(data) {
 		console.log(0 == compareVersions("1.0.0.0.0.1", "1.0.0.0.0.1"));
 		console.log(0 == compareVersions("1.0.0", "1"));
 		console.log(0 == compareVersions("1", "1.0"));
+		console.log(1 == compareVersions("1.1", "1.0.50"));
 		console.log(1 == compareVersions("1.15", "1.5"));
 		console.log(1 == compareVersions("1", "0.1"));
 		console.log(1 == compareVersions("1.0.13", "1.0.1"));
+		console.log(-1 == compareVersions("1.0", "1.0.1"));
 		console.log(-1 == compareVersions("0.1", "1.0.1"));
 		console.log(-1 == compareVersions("0.34", "0.34.1"));
 		console.log(-1 == compareVersions("0.34.1", "1"));

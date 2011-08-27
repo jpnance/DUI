@@ -23,6 +23,7 @@
 $(document).ready(loadDynastyData);
 
 var showColors = (GM_getValue("dui_showColors") == null) || GM_getValue("dui_showColors");
+var upgradeLink = "http://thedynastyleague.com/dui/dui-stable.user.js";
 
 function saveColorSetting() {
 	GM_setValue("dui_showColors", showColors);
@@ -32,6 +33,8 @@ function loadDynastyData() {
 	GM_xmlhttpRequest({
 		method: "GET",
 		url: "http://thedynastyleague.com/dynastyData.xml?nocache=" + Math.random(),
-		onload: onDynastyData
+		onload: function(xhr) {
+			onDynastyData(xhr.responseText);
+		}
 	});
 }
