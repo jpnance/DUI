@@ -26,9 +26,6 @@
 				if (request.action == 'fetchDynastyData') {
 					fetchDynastyData(callback);
 				}
-				else if (request.action == 'getVersion') {
-					callback(chrome.app.getDetails().version);
-				}
 			};
 		
 			chrome.extension.onRequest.addListener(onRequest);

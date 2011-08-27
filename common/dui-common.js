@@ -1,4 +1,4 @@
-var version = DuiDictionary.VERSION;
+var versionString = DuiDictionary.VERSION;
 var currentYear = 2011;
 
 var showColors = true;
@@ -39,15 +39,29 @@ function onDynastyData(data) {
 		var parsedXml = parser.parseFromString(data, "text/xml");
 
 		var latestVersionString = parsedXml.getElementsByTagName("version")[0].firstChild.nodeValue;
-		var latestVersionFloat = parseFloat(latestVersionString);
 
-		if (version < latestVersionFloat) {
+		if (compareVersions(versionString, latestVersionString) < 0) {
 			var upgrade = confirm("There's a newer version of DUI available.\nWould you like to upgrade to the latest version?");
 
 			if (upgrade) {
-				window.location = "http://thedynastyleague.com/dui/dui-latest.user.js";
+				window.location = "http://thedynastyleague.com/dui/";
 			}
 		}
+
+		/*
+		console.log(0 == compareVersions("0", "0.0.0"));
+		console.log(0 == compareVersions("1", "1"));
+		console.log(0 == compareVersions("1.0", "1.0"));
+		console.log(0 == compareVersions("1.0.0.0.0.1", "1.0.0.0.0.1"));
+		console.log(0 == compareVersions("1.0.0", "1"));
+		console.log(0 == compareVersions("1", "1.0"));
+		console.log(1 == compareVersions("1.15", "1.5"));
+		console.log(1 == compareVersions("1", "0.1"));
+		console.log(1 == compareVersions("1.0.13", "1.0.1"));
+		console.log(-1 == compareVersions("0.1", "1.0.1"));
+		console.log(-1 == compareVersions("0.34", "0.34.1"));
+		console.log(-1 == compareVersions("0.34.1", "1"));
+		*/
 
 		$("div#playerTableHeader li").bind("click", loadDynastyData);
 		$("ul.lineupsNav li.lineupsNavItemOff div").bind("click", loadDynastyData);
@@ -211,4 +225,33 @@ function setColors() {
 
 		playerTableParent.prepend(realPlayerTable);
 	});
+}
+
+function compareVersions(v1, v2) {
+	var v1tokens = v1.split(".");
+	var v2tokens = v2.split(".");
+
+	for (var i = 0; i < v1tokens.length; i++) {
+		var left = parseInt(v1tokens[i]) || 0;
+		var right = parseInt(v2tokens[i]) || 0;
+
+		if (left > right) {
+			return 1;
+		}
+		else if (left < right) {
+			return -1;
+		}
+	}
+
+	if (v2tokens.length > v1tokens.length) {
+		for (var i = v1tokens.length; i < v2tokens.length; i++) {
+			var version = parseInt(v2tokens[i]) || 0;
+
+			if (version > 0) {
+				return -1;
+			}
+		}
+	}
+
+	return 0;
 }
