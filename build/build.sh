@@ -1,9 +1,11 @@
 #!/bin/sh
 
-if [ ! -d chrome ]
+if [ -d chrome ]
 then
-	mkdir chrome
+	rm -rf chrome
 fi
+
+mkdir chrome
 
 cp ../chrome/chrome.pem chrome/
 cp ../chrome/manifest.json chrome/
