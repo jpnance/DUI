@@ -32,7 +32,7 @@ function saveColorSetting() {
 function loadDynastyData() {
 	GM_xmlhttpRequest({
 		method: "GET",
-		url: "http://thedynastyleague.com/dynastyData.xml?nocache=" + Math.random(),
+		url: "http://thedynastyleague.com/dynastyData.xml?_=" + Math.random(),
 		onload: function(xhr) {
 			onDynastyData(xhr.responseText);
 		}
