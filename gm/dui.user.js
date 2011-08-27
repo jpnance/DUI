@@ -17,12 +17,12 @@
 // @include        http://games.espn.go.com/ffl/trade?*leagueId=122885*
 // @include        http://games.espn.go.com/ffl/tradereview?*leagueId=122885*
 // @include        http://games.espn.go.com/ffl/watchlist?*leagueId=122885*
-// @require        http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js
+// @require        http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js
 // ==/UserScript==
 
 (
 	function() {
-		var version = 0.035;
+		var version = 0.036;
 
 		var currentYear = 2011;
 		var positionColors = {
@@ -74,26 +74,28 @@
 		}
 
 		function setColors() {
-			var realPlayerTable = $("table.playerTableTable");
-			var playerTableCopy = realPlayerTable.clone();
+			$("table.playerTableTable").each(function() {
+				var playerTableParent = $(this).parent();
+				var realPlayerTable = $(this).detach();
 
-			if (showColors) {
-				playerTableCopy.find("[id^=playername]:contains('\u00a0S')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["S"]);
-				playerTableCopy.find("[id^=playername]:contains('\u00a0QB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["QB"]);
-				playerTableCopy.find("[id^=playername]:contains('\u00a0RB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["RB"]);
-				playerTableCopy.find("[id^=playername]:contains('\u00a0WR')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["WR"]);
-				playerTableCopy.find("[id^=playername]:contains('\u00a0TE')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["TE"]);
-				playerTableCopy.find("[id^=playername]:contains('\u00a0DE')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["DE"]);
-				playerTableCopy.find("[id^=playername]:contains('\u00a0DT')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["DT"]);
-				playerTableCopy.find("[id^=playername]:contains('\u00a0LB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["LB"]);
-				playerTableCopy.find("[id^=playername]:contains('\u00a0CB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["CB"]);
-				playerTableCopy.find(generateSelectors("K")).parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["K"]);
-			}
-			else {
-				playerTableCopy.find("[id^=playername]").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", "");
-			}
+				if (showColors) {
+					realPlayerTable.find("[id^=playername]:contains('\u00a0S')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["S"]);
+					realPlayerTable.find("[id^=playername]:contains('\u00a0QB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["QB"]);
+					realPlayerTable.find("[id^=playername]:contains('\u00a0RB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["RB"]);
+					realPlayerTable.find("[id^=playername]:contains('\u00a0WR')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["WR"]);
+					realPlayerTable.find("[id^=playername]:contains('\u00a0TE')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["TE"]);
+					realPlayerTable.find("[id^=playername]:contains('\u00a0DE')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["DE"]);
+					realPlayerTable.find("[id^=playername]:contains('\u00a0DT')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["DT"]);
+					realPlayerTable.find("[id^=playername]:contains('\u00a0LB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["LB"]);
+					realPlayerTable.find("[id^=playername]:contains('\u00a0CB')").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["CB"]);
+					realPlayerTable.find(generateSelectors("K")).parent().children("td[class!=sectionLeadingSpacer]").css("background-color", positionColors["K"]);
+				}
+				else {
+					realPlayerTable.find("[id^=playername]").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", "");
+				}
 
-			realPlayerTable.replaceWith(playerTableCopy);
+				playerTableParent.prepend(realPlayerTable);
+			});
 		}
 
 		function toggleShowColors() {
@@ -148,7 +150,7 @@
 							var upgrade = confirm("There's a newer version of DUI available.\nWould you like to upgrade to the latest version?");
 
 							if (upgrade) {
-								window.location = "http://thedynastyleague.com/dui/dui-latest.user.js";
+								window.location = "http://thedynastyleague.com/dui/dui-stable.user.js";
 							}
 						}
 
