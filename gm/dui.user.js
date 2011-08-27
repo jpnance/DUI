@@ -22,9 +22,9 @@
 
 (
 	function() {
-		var version = 0.034;
+		var version = 0.035;
 
-		var currentYear = 2010;
+		var currentYear = 2011;
 		var positionColors = {
 			"QB":"rgb(215, 235, 255)",
 			"RB":"Azure",
