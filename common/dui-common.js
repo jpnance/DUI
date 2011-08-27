@@ -1,4 +1,4 @@
-var version = null;
+var version = DuiDictionary.VERSION;
 var currentYear = 2011;
 
 var showColors = true;
