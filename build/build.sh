@@ -31,6 +31,8 @@ done
 
 cat > gm/dui.user.js << EOF
 `cat gm/dui-gm.js`
+
+`cat common/dui-common.js`
 EOF
 # END GREASEMONKEY BUILD
 
@@ -54,7 +56,6 @@ cat > chrome/dui.js << EOF
 `cat chrome/dui-chrome.js`
 
 `cat common/dui-common.js`
-
 EOF
 
 dir=chrome/

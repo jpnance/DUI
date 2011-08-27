@@ -1,7 +1,6 @@
 var versionString = DuiDictionary.VERSION;
 var currentYear = 2011;
 
-var showColors = true;
 var switchAdded = false;
 var positionColors = {
 		"QB": "rgb(215, 235, 255)",
@@ -37,7 +36,14 @@ var ends = new Array();
 function onDynastyData(data) {
 	if (data) {
 		var parser = new DOMParser();
-		var parsedXml = parser.parseFromString(data, "text/xml");
+		var parsedXml;
+
+		if (typeof data == "string") {
+			parsedXml = parser.parseFromString(data, "text/xml");
+		}
+		else {
+			parsedXml = parser.parseFromString(data.responseText, "text/xml");
+		}
 
 		var latestVersionString = parsedXml.getElementsByTagName("version")[0].firstChild.nodeValue;
 
@@ -193,8 +199,8 @@ function onDynastyData(data) {
 
 function toggleShowColors() {
 	showColors = !showColors;
-	//GM_setValue("dui_showColors", showColors);
 
+	saveColorSetting();
 	setColors();
 }
 
