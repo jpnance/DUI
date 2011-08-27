@@ -136,7 +136,6 @@
 		function duiGo() {
 			GM_xmlhttpRequest({
 				method: "GET",
-				//url: "http://thedynastyleague.com/dynastyData.xml?nocache=" + Math.random(),
 				url: "http://thedynastyleague.com/dynastyData.xml?nocache=" + Math.random(),
 				onload:
 					function (responseDetails) {
