@@ -2,6 +2,7 @@ var versionString = DuiDictionary.VERSION;
 var currentYear = 2011;
 
 var showColors = true;
+var switchAdded = false;
 var positionColors = {
 		"QB": "rgb(215, 235, 255)",
 		"RB": "Azure",
@@ -69,6 +70,9 @@ function onDynastyData(data) {
 		$("tr.tableSubHead td.playertableData a").bind("click", loadDynastyData);
 		$("div.paginationNav a").bind("click", loadDynastyData);
 		$("ul.filterToolsOptionSet li a").bind("click", loadDynastyData);
+
+		addColorSwitch();
+		setColors();
 
 		// set up maps of player IDs to salaries and player IDs to contracts
 		var draftedXml = parsedXml.getElementsByTagName("drafted");
@@ -186,6 +190,42 @@ function onDynastyData(data) {
 		console.log("Unable to fetch Dynasty League data.");
 	}
 }
+
+function toggleShowColors() {
+	showColors = !showColors;
+	//GM_setValue("dui_showColors", showColors);
+
+	setColors();
+}
+
+function addColorSwitch() {
+	if (!switchAdded) {
+		var list = $("#games-subnav-links");
+		var dropDown = $("ul.games-subnav-drop:last");
+		var appendee;
+
+		if (dropDown.length > 0) {
+			appendee = dropDown;
+		}
+		else {
+			appendee = list;
+		}
+
+		appendee
+		.append(
+			$("<li />")
+			.append(
+				$("<a />")
+				.text("Toggle Colors")
+				.css("cursor", "pointer")
+			)
+			.addClass("drop-item")
+			.click(toggleShowColors)
+		);
+		switchAdded = true;
+	}
+}
+
 
 function generateSelectors(pos) {
 	var selectorString = "";
