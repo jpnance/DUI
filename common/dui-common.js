@@ -33,6 +33,10 @@ var salaries = new Array();
 var starts = new Array();
 var ends = new Array();
 
+$(document).ready(function() {
+	$("input[id^=budget]").css("width", "40px");
+});
+
 function onDynastyData(data) {
 	if (data) {
 		var parser = new DOMParser();

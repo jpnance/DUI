@@ -14,6 +14,7 @@
 // @include        http://games.espn.go.com/ffl/rosterfix?*leagueId=122885*
 // @include        http://games.espn.go.com/ffl/tools/keeperselect?*leagueId=122885*
 // @include        http://games.espn.go.com/ffl/tools/lmtradereview?*leagueId=122885*
+// @include        http://games.espn.go.com/ffl/tools/waiverorder?*leagueId=122885*
 // @include        http://games.espn.go.com/ffl/trade?*leagueId=122885*
 // @include        http://games.espn.go.com/ffl/tradereview?*leagueId=122885*
 // @include        http://games.espn.go.com/ffl/watchlist?*leagueId=122885*
