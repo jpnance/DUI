@@ -3,6 +3,10 @@
 	<head></head>
 	<body>
 		<script>
+			if (localStorage["showColors"] == null) {
+				localStorage["showColors"] = true;
+			}
+
 			function fetchDynastyData(callback) {
 				var xhr = new XMLHttpRequest();
 				xhr.onreadystatechange = function(data) {
@@ -23,8 +27,14 @@
 			};
 		
 			function onRequest(request, sender, callback) {
-				if (request.action == 'fetchDynastyData') {
+				if (request.action == "fetchDynastyData") {
 					fetchDynastyData(callback);
+				}
+				else if (request.action == "retrieveColorSetting") {
+					callback({ "showColors": localStorage["showColors"] });
+				}
+				else if (request.action == "storeColorSetting") {
+					localStorage["showColors"] = request.value;
 				}
 			};
 		

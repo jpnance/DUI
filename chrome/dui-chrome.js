@@ -1,12 +1,20 @@
 $(document).ready(loadDynastyData);
 
-var showColors = true;
+var showColors = getColorSetting();
 var upgradeLink = "http://thedynastyleague.com/dui/dui-stable.crx";
 
+function getColorSetting() {
+	chrome.extension.sendRequest({ "action": "retrieveColorSetting" }, syncColorSetting);
+}
+
 function saveColorSetting() {
-	// TODO: Learn how to do this.
+	chrome.extension.sendRequest({ "action": "storeColorSetting", "value": showColors });
+}
+
+function syncColorSetting(response) {
+	showColors = (response.showColors == "true");
 }
 
 function loadDynastyData() {
-	chrome.extension.sendRequest({'action' : 'fetchDynastyData'}, onDynastyData);
+	chrome.extension.sendRequest({ "action": "fetchDynastyData" }, onDynastyData);
 }
