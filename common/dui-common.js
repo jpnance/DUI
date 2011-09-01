@@ -24,7 +24,7 @@ var teamAbbreviations = new Array(
 		"Mia", "Min", "NE", "NO",
 		"NYG", "NYJ", "Oak", "Phi",
 		"Pit", "SD", "Sea", "SF",
-		"Stl", "TB", "Ten", "Was",
+		"StL", "TB", "Ten", "Wsh",
 		"FA"
 );
 
