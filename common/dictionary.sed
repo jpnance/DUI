@@ -1,1 +1,1 @@
-s/DuiDictionary.VERSION/"1.0"/
+s/DuiDictionary.VERSION/"1.1"/
