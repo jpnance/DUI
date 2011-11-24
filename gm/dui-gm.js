@@ -21,8 +21,6 @@
 // @require        http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js
 // ==/UserScript==
 
-$(document).ready(loadDynastyData);
-
 var showColors = (GM_getValue("dui_showColors") == null) || GM_getValue("dui_showColors");
 var upgradeLink = "http://thedynastyleague.com/dui/dui-stable.user.js";
 

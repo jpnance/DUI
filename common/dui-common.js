@@ -33,7 +33,15 @@ var salaries = new Array();
 var starts = new Array();
 var ends = new Array();
 
+$(document).ready(loadDynastyData);
 $(document).ready(function() {
+	$("div#playerTableHeader li").live("click", loadDynastyData);
+	$("ul.lineupsNav li.lineupsNavItemOff div").live("click", loadDynastyData);
+	$("td.playertableStat a").live("click", loadDynastyData);
+	$("tr.tableSubHead td.playertableData a").live("click", loadDynastyData);
+	$("div.paginationNav a").live("click", loadDynastyData);
+	$("ul.filterToolsOptionSet li a").live("click", loadDynastyData);
+
 	$("input[id^=budget]").css("width", "40px");
 });
 
@@ -68,13 +76,6 @@ function onDynastyData(data) {
 		console.log(-1 == compareVersions("0.34", "0.34.1"));
 		console.log(-1 == compareVersions("0.34.1", "1"));
 		*/
-
-		$("div#playerTableHeader li").bind("click", loadDynastyData);
-		$("ul.lineupsNav li.lineupsNavItemOff div").bind("click", loadDynastyData);
-		$("td.playertableStat a").bind("click", loadDynastyData);
-		$("tr.tableSubHead td.playertableData a").bind("click", loadDynastyData);
-		$("div.paginationNav a").bind("click", loadDynastyData);
-		$("ul.filterToolsOptionSet li a").bind("click", loadDynastyData);
 
 		addColorSwitch();
 		setColors();

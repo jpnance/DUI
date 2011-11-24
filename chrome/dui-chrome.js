@@ -1,5 +1,3 @@
-$(document).ready(loadDynastyData);
-
 var showColors = getColorSetting();
 var upgradeLink = "http://thedynastyleague.com/dui/dui-stable.crx";
 
