@@ -1,0 +1,5 @@
+*.swp
+build/chrome/
+build/common/
+build/gm/
+chrome/chrome.pem
