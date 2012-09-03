@@ -1,5 +1,5 @@
 var versionString = DuiDictionary.VERSION;
-var currentYear = 2011;
+var currentYear = 2012;
 
 var switchAdded = false;
 var positionColors = {
