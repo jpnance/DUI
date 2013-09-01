@@ -1,5 +1,4 @@
 var versionString = DuiDictionary.VERSION;
-var currentYear = 2012;
 
 var switchAdded = false;
 var positionColors = {
@@ -59,6 +58,8 @@ function onDynastyData(data) {
 				window.location = upgradeLink;
 			}
 		}
+
+		var currentYear = parseInt(parsedXml.getElementsByTagName("season")[0].firstChild.nodeValue);
 
 		/*
 		console.log(0 == compareVersions("0", "0.0.0"));
