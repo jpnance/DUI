@@ -1,4 +1,6 @@
 {
+	"manifest_version": 2,
+
 	"name": "Dynasty User Interface",
 	"version": DuiDictionary.VERSION,
 
@@ -8,7 +10,10 @@
 		"http://thedynastyleague.com/*"
 	],
 
-	"background_page": "background.html",
+	"background": {
+		"scripts": [ "background.js" ]
+	},
+
 	"content_scripts": [
 		{
 			"matches": [

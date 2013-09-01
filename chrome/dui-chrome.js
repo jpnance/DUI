@@ -2,11 +2,11 @@ var showColors = getColorSetting();
 var upgradeLink = "http://thedynastyleague.com/dui/dui-stable.crx";
 
 function getColorSetting() {
-	chrome.extension.sendRequest({ "action": "retrieveColorSetting" }, syncColorSetting);
+	chrome.runtime.sendMessage({ "action": "retrieveColorSetting" }, syncColorSetting);
 }
 
 function saveColorSetting() {
-	chrome.extension.sendRequest({ "action": "storeColorSetting", "value": showColors });
+	chrome.runtime.sendMessage({ "action": "storeColorSetting", "value": showColors });
 }
 
 function syncColorSetting(response) {
@@ -14,5 +14,5 @@ function syncColorSetting(response) {
 }
 
 function loadDynastyData() {
-	chrome.extension.sendRequest({ "action": "fetchDynastyData" }, onDynastyData);
+	chrome.runtime.sendMessage({ "action": "fetchDynastyData" }, onDynastyData);
 }
