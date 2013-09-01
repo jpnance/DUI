@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name           Dynasty
+// @name           Dynasty User Interface
 // @namespace      http://coinflipper.org/
 // @description    Dynasty league stuff
 // @include        http://games.espn.go.com/ffl/boxscore?*leagueId=122885*
@@ -19,10 +19,12 @@
 // @include        http://games.espn.go.com/ffl/tradereview?*leagueId=122885*
 // @include        http://games.espn.go.com/ffl/watchlist?*leagueId=122885*
 // @require        http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js
+// @version        DuiDictionary.UNQUOTED_VERSION
+// @updateURL      https://userscripts.org/scripts/source/177045.meta.js
+// @downloadURL    https://userscripts.org/scripts/source/177045.user.js
 // ==/UserScript==
 
 var showColors = (GM_getValue("dui_showColors") == null) || GM_getValue("dui_showColors");
-var upgradeLink = "http://thedynastyleague.com/dui/dui-stable.user.js";
 
 function saveColorSetting() {
 	GM_setValue("dui_showColors", showColors);

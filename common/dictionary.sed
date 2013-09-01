@@ -1,1 +1,2 @@
-s/DuiDictionary.VERSION/"1.1.4"/
+s/DuiDictionary.VERSION/"1.1.5"/
+s/DuiDictionary.UNQUOTED_VERSION/1.1.5/

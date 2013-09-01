@@ -1,5 +1,4 @@
 var showColors = getColorSetting();
-var upgradeLink = "http://thedynastyleague.com/dui/dui-stable.crx";
 
 function getColorSetting() {
 	chrome.runtime.sendMessage({ "action": "retrieveColorSetting" }, syncColorSetting);
