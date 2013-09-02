@@ -59,3 +59,4 @@ cat > chrome/dui.js << EOF
 EOF
 
 zip chrome/dui.zip chrome/manifest.json chrome/dui.js chrome/background.js
+# END CHROME EXTENSION BUILD
