@@ -67,6 +67,8 @@ $(document).ready(function() {
 
 function onDynastyData(data) {
 	if (data) {
+		console.log("Setting up the player table data.");
+
 		var parser = new DOMParser();
 		var parsedXml = parser.parseFromString(data, "text/xml");
 
