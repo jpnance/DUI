@@ -30,7 +30,30 @@ var salaries = new Array();
 var starts = new Array();
 var ends = new Array();
 
-$(document).ready(loadDynastyData);
+var fetchDataForPathnames = [
+	"/ffl/boxscore",
+	"/ffl/boxscorefull",
+	"/ffl/boxscorequick",
+	"/ffl/boxscorescoring",
+	"/ffl/clubhouse",
+	"/ffl/dropplayers",
+	"/ffl/freeagency",
+	"/ffl/leaders",
+	"/ffl/leaguerosters",
+	"/ffl/rosterfix",
+	"/ffl/tools/keeperselect",
+	"/ffl/tools/lmtradereview",
+	"/ffl/tools/waiverorder",
+	"/ffl/trade",
+	"/ffl/tradereview",
+	"/ffl/watchlist"
+];
+
+if ($.inArray(window.location.pathname, fetchDataForPathnames) != -1) {
+	$(document).ready(loadDynastyData);
+}
+
+$(document).ready(loadOwners);
 $(document).ready(function() {
 	$("div#playerTableHeader li").live("click", loadDynastyData);
 	$("ul.lineupsNav li.lineupsNavItemOff div").live("click", loadDynastyData);
@@ -239,5 +262,43 @@ function setColors() {
 		else {
 			realPlayerTable.find("[id^=playername]").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", "");
 		}
+	});
+}
+
+function loadOwners() {
+	console.log("Setting up the owner drop-down menu.");
+
+	$.get("http://games.espn.go.com/ffl/leaguesetup/ownerinfo?leagueId=122885", function(data) {
+		var owners = [];
+
+		$(data).find("tr.ownerRow").each(function(i, e) {
+			var $row = $(e);
+			var teamId = parseInt(e.id.split("-")[0]) - 1;
+			var ownerName = $row.find("td span[id^=ownerspan] a").text();
+
+			if (!owners[teamId]) {
+				owners[teamId] = [];
+			}
+
+			if (ownerName != "") {
+				owners[teamId].push(ownerName);
+			}
+		});
+
+		$("ul#games-tabs1 li a").each(function(i, e) {
+			var $a = $(e);
+			var href = $a.attr("href");
+
+			var teamIdMatch = href.match(/teamId=(\d\d?)/);
+			var teamId = parseInt(teamIdMatch[1]) - 1;
+
+			var ownersString = owners[teamId][0];
+
+			if (owners[teamId].length == 2) {
+				ownersString += ", " + owners[teamId][1];
+			}
+
+			$a.append("<br />").append("<span style='font-size: 10px; font-weight: normal;'>" + ownersString + "</span>");
+		});
 	});
 }

@@ -19,6 +19,7 @@
 			"matches": [
 				"file://*/test/clubhouse.html",
 
+				"http://games.espn.go.com/ffl/*?*leagueId=122885*",
 				"http://games.espn.go.com/ffl/boxscore?*leagueId=122885*",
 				"http://games.espn.go.com/ffl/boxscorefull?*leagueId=122885*",
 				"http://games.espn.go.com/ffl/boxscorequick?*leagueId=122885*",
