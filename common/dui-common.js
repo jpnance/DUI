@@ -63,6 +63,13 @@ $(document).ready(function() {
 	$("ul.filterToolsOptionSet li a").live("click", loadDynastyData);
 
 	$("input[id^=budget]").css("width", "40px");
+
+	$('a.flexpop[playerid]').each(function(i, e) {
+		var $this = $(e);
+		var playerId = $this.attr('playerid');
+
+		$this.attr('href', 'http://sports.espn.go.com/nfl/players/profile?playerId=' + playerId);
+	});
 });
 
 function onDynastyData(data) {
