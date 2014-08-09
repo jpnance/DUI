@@ -5,8 +5,6 @@
 // @include        http://games.espn.go.com/ffl/*?*leagueId=122885*
 // @require        http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js
 // @version        DuiDictionary.UNQUOTED_VERSION
-// @updateURL      https://userscripts.org/scripts/source/177045.meta.js
-// @downloadURL    https://userscripts.org/scripts/source/177045.user.js
 // ==/UserScript==
 
 var showColors = (GM_getValue("dui_showColors") == null) || GM_getValue("dui_showColors");
