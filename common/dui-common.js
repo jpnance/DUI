@@ -283,7 +283,7 @@ function loadOwners() {
 		$(data).find("tr.ownerRow").each(function(i, e) {
 			var $row = $(e);
 			var teamId = parseInt(e.id.split("-")[0]) - 1;
-			var ownerName = $row.find("td span[id^=ownerspan] a").text();
+			var ownerName = $row.find("td span[id^=ownerspan]").text();
 
 			if (!owners[teamId]) {
 				owners[teamId] = [];
