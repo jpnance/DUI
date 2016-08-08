@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name           Dynasty User Interface
 // @namespace      http://coinflipper.org/
-// @description    Dynasty league stuff
-// @include        http://games.espn.go.com/ffl/*?*leagueId=122885*
+// @description    Primetime Soap Operas user interface
+// @include        http://games.espn.com/ffl/*?*leagueId=122885*
 // @require        http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js
 // @grant          GM_getValue
 // @grant          GM_setValue

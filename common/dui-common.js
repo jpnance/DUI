@@ -68,7 +68,7 @@ $(document).ready(function() {
 		var $this = $(e);
 		var playerId = $this.attr('playerid');
 
-		$this.attr('href', 'http://sports.espn.go.com/nfl/players/profile?playerId=' + playerId);
+		$this.attr('href', 'http://www.espn.com/nfl/players/profile?playerId=' + playerId);
 	});
 });
 
@@ -277,7 +277,7 @@ function setColors() {
 function loadOwners() {
 	console.log("Setting up the owner drop-down menu.");
 
-	$.get("http://games.espn.go.com/ffl/leaguesetup/ownerinfo?leagueId=122885", function(data) {
+	$.get("http://games.espn.com/ffl/leaguesetup/ownerinfo?leagueId=122885", function(data) {
 		var owners = [];
 
 		$(data).find("tr.ownerRow").each(function(i, e) {

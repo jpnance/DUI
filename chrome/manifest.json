@@ -18,7 +18,7 @@
 		{
 			"matches": [
 				"file://*/test/clubhouse.html",
-				"http://games.espn.go.com/ffl/*?*leagueId=122885*"
+				"http://games.espn.com/ffl/*?*leagueId=122885*"
 			],
 			"js": [
 				"dui.js"
