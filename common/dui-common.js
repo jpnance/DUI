@@ -17,12 +17,12 @@ var teamAbbreviations = new Array(
 		"Ari", "Atl", "Bal", "Buf",
 		"Car", "Chi", "Cin", "Cle",
 		"Dal", "Den", "Det", "GB",
-		"Hou", "Ind", "Jac", "KC",
-		"Mia", "Min", "NE", "NO",
-		"NYG", "NYJ", "Oak", "Phi",
-		"Pit", "SD", "Sea", "SF",
-		"StL", "TB", "Ten", "Wsh",
-		"FA"
+		"Hou", "Ind", "Jax", "KC",
+		"LA", "Mia", "Min", "NE",
+		"NO", "NYG", "NYJ", "Oak",
+		"Phi", "Pit", "SD", "Sea",
+		"SF", "TB", "Ten", "Wsh",
+		"FA", "StL", "Jac"
 );
 
 var positions = new Array();
