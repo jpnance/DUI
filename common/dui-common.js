@@ -78,7 +78,7 @@ $(document).ready(function() {
 
 function onDynastyData(data) {
 	if (data) {
-		console.log("Setting up the player table data.");
+		//console.log("Setting up the player table data.");
 
 		var parser = new DOMParser();
 		var parsedXml = parser.parseFromString(data, "text/xml");
@@ -205,7 +205,7 @@ function onDynastyData(data) {
 		);
 	}
 	else {
-		console.log("Unable to fetch Dynasty League data.");
+		//console.log("Unable to fetch Dynasty League data.");
 	}
 }
 
@@ -293,7 +293,7 @@ function generateSelectors(pos) {
 }
 
 function setColors() {
-	console.log("Setting up the player table colors.");
+	//console.log("Setting up the player table colors.");
 
 	$("table.playerTableTable").each(function() {
 		var realPlayerTable = $(this);
@@ -326,7 +326,7 @@ function setContracts() {
 }
 
 function loadOwners() {
-	console.log("Setting up the owner drop-down menu.");
+	//console.log("Setting up the owner drop-down menu.");
 
 	$.get("http://games.espn.com/ffl/leaguesetup/ownerinfo?leagueId=122885", function(data) {
 		var owners = [];
