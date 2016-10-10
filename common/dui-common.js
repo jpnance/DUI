@@ -1,4 +1,8 @@
-var switchAdded = false;
+var switchAdded = {
+	colors: false,
+	contracts: false
+};
+
 var positionColors = {
 		"QB": "rgb(215, 235, 255)",
 		"RB": "Azure",
@@ -83,6 +87,9 @@ function onDynastyData(data) {
 
 		addColorSwitch();
 		setColors();
+
+		addContractSwitch();
+		setContracts();
 
 		// set up maps of player IDs to salaries and player IDs to contracts
 		var draftedXml = parsedXml.getElementsByTagName("drafted");
@@ -192,6 +199,7 @@ function onDynastyData(data) {
 					.append(salaryDisplay)
 					.append(contractDisplay)
 					.attr("title", contractTip)
+					.addClass("contract")
 				);
 			}
 		);
@@ -208,8 +216,15 @@ function toggleShowColors() {
 	setColors();
 }
 
+function toggleShowContracts() {
+	showContracts = !showContracts;
+
+	saveContractSetting();
+	setContracts();
+}
+
 function addColorSwitch() {
-	if (!switchAdded) {
+	if (!switchAdded.colors) {
 		var list = $("#games-subnav-links");
 		var dropDown = $("ul.games-subnav-drop:last");
 		var appendee;
@@ -232,10 +247,37 @@ function addColorSwitch() {
 			.addClass("drop-item")
 			.click(toggleShowColors)
 		);
-		switchAdded = true;
+		switchAdded.colors = true;
 	}
 }
 
+function addContractSwitch() {
+	if (!switchAdded.contracts) {
+		var list = $("#games-subnav-links");
+		var dropDown = $("ul.games-subnav-drop:last");
+		var appendee;
+
+		if (dropDown.length > 0) {
+			appendee = dropDown;
+		}
+		else {
+			appendee = list;
+		}
+
+		appendee
+		.append(
+			$("<li />")
+			.append(
+				$("<a />")
+				.text("Toggle Contracts")
+				.css("cursor", "pointer")
+			)
+			.addClass("drop-item")
+			.click(toggleShowContracts)
+		);
+		switchAdded.contracts = true;
+	}
+}
 
 function generateSelectors(pos) {
 	var selectorString = "";
@@ -272,6 +314,15 @@ function setColors() {
 			realPlayerTable.find("[id^=playername]").parent().children("td[class!=sectionLeadingSpacer]").css("background-color", "");
 		}
 	});
+}
+
+function setContracts() {
+	if (showContracts) {
+		$("body style#dui").remove();
+	}
+	else {
+		$("body").append("<style id='dui' type='text/css'>.contract { display: none; }");
+	}
 }
 
 function loadOwners() {

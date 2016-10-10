@@ -11,9 +11,14 @@
 // ==/UserScript==
 
 var showColors = (GM_getValue("dui_showColors") == null) || GM_getValue("dui_showColors");
+var showContracts = (GM_getValue("dui_showContracts") == null) || GM_getValue("dui_showContracts");
 
 function saveColorSetting() {
 	GM_setValue("dui_showColors", showColors);
+}
+
+function saveContractSetting() {
+	GM_setValue("dui_showContracts", showContracts);
 }
 
 function loadDynastyData() {

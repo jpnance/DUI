@@ -2,6 +2,10 @@ if (localStorage["showColors"] == null) {
 	localStorage["showColors"] = true;
 }
 
+if (localStorage["showContracts"] == null) {
+	localStorage["showContracts"] = true;
+}
+
 function fetchDynastyData(callback) {
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(data) {
@@ -30,6 +34,12 @@ function onMessage(request, sender, callback) {
 	}
 	else if (request.action == "storeColorSetting") {
 		localStorage["showColors"] = request.value;
+	}
+	else if (request.action == "retrieveContractSetting") {
+		callback({ "showContracts": localStorage["showContracts"] });
+	}
+	else if (request.action == "storeContractSetting") {
+		localStorage["showContracts"] = request.value;
 	}
 
 	return true;
