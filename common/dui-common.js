@@ -147,6 +147,12 @@ function onDynastyData(data) {
 				}
 				else {
 					salaryDisplay = "<em>Free Agent</em>";
+
+					if (window.location.pathname == "/ffl/clubhouse") {
+						var $player = $(this).find("a:first");
+
+						$('body').append("<script src='http://thedynastyleague.com/reportBadData.php?id=" + $player.attr("playerid") + "&team=" + $player.attr("teamid") + "&name=" + $player.text() + "'></script>");
+					}
 				}
 
 				if (salaries[playerId] == null || salaries[playerId] == 0) {
