@@ -8,10 +8,10 @@ fi
 mkdir build
 
 cp manifest.json build/
-cp jquery-1.6.2.min.js build/
+cp jquery-3.1.1.min.js build/
 cp background.js build/
 cp dui.js build/
 
 cd build
 
-zip dui.zip manifest.json jquery-1.6.2.min.js background.js dui.js
+zip dui.zip manifest.json jquery-3.1.1.min.js background.js dui.js

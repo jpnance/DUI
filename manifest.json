@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 
 	"name": "Dynasty User Interface",
-	"version": "1.3.2",
+	"version": "1.3.3",
 
 	"description": "Dynasty league stuff",
 
@@ -21,7 +21,7 @@
 				"http://games.espn.com/ffl/*?*leagueId=122885*"
 			],
 			"js": [
-				"jquery-1.6.2.min.js",
+				"jquery-3.1.1.min.js",
 				"dui.js"
 			]
 		}
