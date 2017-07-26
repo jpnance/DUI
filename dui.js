@@ -362,7 +362,8 @@ function loadOwners() {
 				ownersString += ", " + owners[teamId][1];
 			}
 
-			$a.append("<br />").append("<span style='font-size: 10px; font-weight: normal;'>" + ownersString + "</span>");
+			var $ownersElement = $("<span style='color: #666; font-size: 10px; font-weight: normal;'>").text(ownersString);
+			$a.append("<br />").append($ownersElement);
 		});
 	});
 }
