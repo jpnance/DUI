@@ -62,12 +62,12 @@ if ($.inArray(window.location.pathname, fetchDataForPathnames) != -1) {
 
 $(document).ready(loadOwners);
 $(document).ready(function() {
-	$("div#playerTableHeader li").live("click", loadDynastyData);
-	$("ul.lineupsNav li.lineupsNavItemOff div").live("click", loadDynastyData);
-	$("td.playertableStat a").live("click", loadDynastyData);
-	$("tr.tableSubHead td.playertableData a").live("click", loadDynastyData);
-	$("div.paginationNav a").live("click", loadDynastyData);
-	$("ul.filterToolsOptionSet li a").live("click", loadDynastyData);
+	$("div#playerTableHeader li").on("click", loadDynastyData);
+	$("ul.lineupsNav li.lineupsNavItemOff div").on("click", loadDynastyData);
+	$("td.playertableStat a").on("click", loadDynastyData);
+	$("tr.tableSubHead td.playertableData a").on("click", loadDynastyData);
+	$("div.paginationNav a").on("click", loadDynastyData);
+	$("ul.filterToolsOptionSet li a").on("click", loadDynastyData);
 
 	$("input[id^=budget]").css("width", "40px");
 
