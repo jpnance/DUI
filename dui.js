@@ -142,23 +142,23 @@ function onDynastyData(data) {
 		$("*[id^=playername]").each(
 			function() {
 				var playerId = this.id.match(/playername_(\d+)/)[1];
-				var salaryDisplay, contractDisplay, contractTip;
+				var salaryDisplay, separatorString, contractDisplay, contractTip;
+				var $salaryElement, $contractElement;
 				var salary, term, finalYear, inYear, yearsLeft, contractTip;
 
 				if (salaries[playerId] > 0) {
-					salaryDisplay = "<strong>$" + salaries[playerId] + "</strong>";
+					$salaryElement = $("<strong>").text("$" + salaries[playerId]);
 					salary = salaries[playerId];
 				}
 				else {
-					salaryDisplay = "<em>Free Agent</em>";
+					$salaryElement = $("<em>").text('Free Agent');
 				}
 
 				if (salaries[playerId] == null || salaries[playerId] == 0) {
-					contractDisplay = "";
 					contractTip = "This player is currently a free agent.";
 				}
 				else {
-					contractDisplay = " - ";
+					separatorString = " - ";
 					contractTip = "";
 
 					if (ends[playerId] != "Not Yet Signed") {
@@ -175,7 +175,8 @@ function onDynastyData(data) {
 						inYear = currentYear - startYear + 1;
 						contractYears = endYear - startYear + 1;
 
-						contractDisplay += finalYear + " <em>(" + inYear + "/" + contractYears + ")</em>";
+						$yearsElement = $("<em>").text("(" + inYear + "/" + contractYears + ")");
+						$contractElement = $("<span>").text(finalYear + " ").append($yearsElement);
 
 						var tempSalary = salary;
 						var forYear = currentYear;
@@ -192,16 +193,16 @@ function onDynastyData(data) {
 						}
 					}
 					else {
-						contractDisplay += "<em>Not Yet Signed</em>";
+						$contractElement += $("<em>").text("Not Yet Signed");
 						contractTip = "This player has not yet signed with his team.";
 					}
 				}
 
-				$("#" + this.id)
-				.append(
+				$("#" + this.id).append(
 					$("<div />")
-					.append(salaryDisplay)
-					.append(contractDisplay)
+					.append($salaryElement)
+					.append(separatorString)
+					.append($contractElement)
 					.attr("title", contractTip)
 					.addClass("contract")
 				);
