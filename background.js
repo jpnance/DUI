@@ -20,7 +20,7 @@ function fetchDynastyData(callback) {
 		}
 	};
 
-	var url = "http://thedynastyleague.com/dynastyData.xml?_=" + Math.random();
+	var url = "http://thedynastyleague.com/data/data.xml?_=" + Math.random();
 	xhr.open("GET", url, true);
 	xhr.send();
 };
