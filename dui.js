@@ -193,7 +193,7 @@ function onDynastyData(data) {
 						}
 					}
 					else {
-						$contractElement += $("<em>").text("Not Yet Signed");
+						$contractElement = $("<em>").text("Not Yet Signed");
 						contractTip = "This player has not yet signed with his team.";
 					}
 				}
