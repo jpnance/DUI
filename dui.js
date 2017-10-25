@@ -209,7 +209,7 @@ function onDynastyData(data) {
 								}
 							}
 						}
-						else {
+						else if (context == 'fba') {
 							if (endYear > startYear) {
 								contractTip = 'This player will be a restricted free agent at the end of his contract.';
 							}
