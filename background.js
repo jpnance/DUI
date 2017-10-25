@@ -24,16 +24,16 @@ function fetchDynastyData(context, callback) {
 		}
 	};
 
-	var url = "";
+	var url = '';
 
 	if (context == 'ffl') {
-		url = "http://thedynastyleague.com/data/data.xml?_=" + Math.random();
+		url = 'http://thedynastyleague.com/data/data.xml?_=' + Math.random();
 	}
 	else if (context == 'fba') {
-		url = "http://thedynastyleague.com/data/colbys.xml?_=" + Math.random();
+		url = 'http://thedynastyleague.com/data/colbys.xml?_=' + Math.random();
 	}
 
-	xhr.open("GET", url, true);
+	xhr.open('GET', url, true);
 	xhr.send();
 };
 
