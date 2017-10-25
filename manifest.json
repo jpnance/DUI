@@ -2,9 +2,9 @@
 	"manifest_version": 2,
 
 	"name": "Dynasty User Interface",
-	"version": "1.4.2",
+	"version": "2.0.0",
 
-	"description": "Dynasty league stuff",
+	"description": "An extension that makes playing in Primetime Soap Operas and Dynasty II: The Colbys a heck of a lot easier.",
 
 	"permissions": [
 		"http://thedynastyleague.com/*",
