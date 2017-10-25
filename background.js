@@ -1,10 +1,14 @@
-if (localStorage["showColors"] == null) {
-	localStorage["showColors"] = true;
-}
+['showColors', 'showContracts', 'fba', 'ffl'].forEach(function(key) {
+	if (localStorage[key] != null) {
+		delete localStorage[key];
+	}
+});
 
-if (localStorage["showContracts"] == null) {
-	localStorage["showContracts"] = true;
-}
+['ffl-contracts', 'ffl-colors', 'fba-contracts', 'fba-colors'].forEach(function(key) {
+	if (localStorage[key] == null) {
+		localStorage[key] = 'true';
+	}
+});
 
 function fetchDynastyData(context, callback) {
 	var xhr = new XMLHttpRequest();
@@ -34,20 +38,20 @@ function fetchDynastyData(context, callback) {
 };
 
 function onMessage(request, sender, callback) {
-	if (request.action == "fetchDynastyData") {
+	if (request.action == 'fetchDynastyData') {
 		fetchDynastyData(request.context, callback);
 	}
-	else if (request.action == "retrieveColorSetting") {
-		callback({ "showColors": localStorage["showColors"] });
+	else if (request.action == 'retrieveColorSetting') {
+		callback({ showColors: localStorage[request.context + '-colors'] } );
 	}
-	else if (request.action == "storeColorSetting") {
-		localStorage["showColors"] = request.value;
+	else if (request.action == 'storeColorSetting') {
+		localStorage[request.context + '-colors'] = request.value;
 	}
-	else if (request.action == "retrieveContractSetting") {
-		callback({ "showContracts": localStorage["showContracts"] });
+	else if (request.action == 'retrieveContractSetting') {
+		callback({ showContracts: localStorage[request.context + '-contracts'] });
 	}
-	else if (request.action == "storeContractSetting") {
-		localStorage["showContracts"] = request.value;
+	else if (request.action == 'storeContractSetting') {
+		localStorage[request.context + '-contracts'] = request.value;
 	}
 
 	return true;

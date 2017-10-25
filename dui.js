@@ -398,11 +398,11 @@ function loadOwners() {
 }
 
 function getColorSetting() {
-	chrome.runtime.sendMessage({ "action": "retrieveColorSetting" }, syncColorSetting);
+	chrome.runtime.sendMessage({ "action": "retrieveColorSetting", "context": context }, syncColorSetting);
 }
 
 function saveColorSetting() {
-	chrome.runtime.sendMessage({ "action": "storeColorSetting", "value": showColors });
+	chrome.runtime.sendMessage({ "action": "storeColorSetting", "context": context, "value": showColors });
 }
 
 function syncColorSetting(response) {
@@ -410,11 +410,11 @@ function syncColorSetting(response) {
 }
 
 function getContractSetting() {
-	chrome.runtime.sendMessage({ "action": "retrieveContractSetting" }, syncContractSetting);
+	chrome.runtime.sendMessage({ "action": "retrieveContractSetting", "context": context }, syncContractSetting);
 }
 
 function saveContractSetting() {
-	chrome.runtime.sendMessage({ "action": "storeContractSetting", "value": showContracts });
+	chrome.runtime.sendMessage({ "action": "storeContractSetting", "context": context, "value": showContracts });
 }
 
 function syncContractSetting(response) {
