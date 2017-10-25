@@ -7,6 +7,7 @@ var contextualUris = {
 		owners: 'http://games.espn.com/fba/leaguesetup/ownerinfo?leagueId=119576'
 	}
 };
+var fetching = null;
 
 var switchAdded = {
 	colors: false,
@@ -73,12 +74,8 @@ if ($.inArray(window.location.pathname, fetchDataForPathnames) != -1) {
 
 $(document).ready(loadOwners);
 $(document).ready(function() {
-	$("div#playerTableHeader li").on("click", loadDynastyData);
-	$("ul.lineupsNav li.lineupsNavItemOff div").on("click", loadDynastyData);
-	$("td.playertableStat a").on("click", loadDynastyData);
-	$("tr.tableSubHead td.playertableData a").on("click", loadDynastyData);
-	$("div.paginationNav a").on("click", loadDynastyData);
-	$("ul.filterToolsOptionSet li a").on("click", loadDynastyData);
+	var loadableSelectors = 'div#playerTableHeader ul li a, ul.lineupsNav li.lineupsNavItemOff div, td.playertableStat a, tr.tableSubHead td.playertableData a, div.paginationNav a, ul.filterToolsOptionSet li a, div.games-dates-mod ul li a';
+	$('body').on('click', loadableSelectors, loadDynastyData);
 
 	$("input[id^=budget]").css("width", "40px");
 
@@ -425,5 +422,11 @@ function syncContractSetting(response) {
 }
 
 function loadDynastyData() {
-	chrome.runtime.sendMessage({ "action": "fetchDynastyData" }, onDynastyData);
+	if (fetching) {
+		clearTimeout(fetching);
+	}
+
+	fetching = setTimeout(function() {
+		chrome.runtime.sendMessage({ "action": "fetchDynastyData", "context": context }, onDynastyData);
+	}, 1500);
 }

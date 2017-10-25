@@ -6,7 +6,7 @@ if (localStorage["showContracts"] == null) {
 	localStorage["showContracts"] = true;
 }
 
-function fetchDynastyData(callback) {
+function fetchDynastyData(context, callback) {
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(data) {
 		if (xhr.readyState == 4) {
@@ -20,14 +20,22 @@ function fetchDynastyData(callback) {
 		}
 	};
 
-	var url = "http://thedynastyleague.com/data/data.xml?_=" + Math.random();
+	var url = "";
+
+	if (context == 'ffl') {
+		url = "http://thedynastyleague.com/data/data.xml?_=" + Math.random();
+	}
+	else if (context == 'fba') {
+		url = "http://thedynastyleague.com/data/colbys.xml?_=" + Math.random();
+	}
+
 	xhr.open("GET", url, true);
 	xhr.send();
 };
 
 function onMessage(request, sender, callback) {
 	if (request.action == "fetchDynastyData") {
-		fetchDynastyData(callback);
+		fetchDynastyData(request.context, callback);
 	}
 	else if (request.action == "retrieveColorSetting") {
 		callback({ "showColors": localStorage["showColors"] });
