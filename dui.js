@@ -348,7 +348,7 @@ function setContracts() {
 function loadOwners() {
 	//console.log("Setting up the owner drop-down menu.");
 
-	$.get("http://games.espn.com/ffl/leaguesetup/ownerinfo?leagueId=122885", function(data) {
+	$.get(contextualUris[context].owners, function(data) {
 		var owners = [];
 
 		$(data).find("tr.ownerRow").each(function(i, e) {
