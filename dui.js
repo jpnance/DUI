@@ -82,7 +82,9 @@ $(document).ready(function() {
 		var $this = $(e);
 		var playerId = $this.attr('playerid');
 
-		$this.attr('href', 'http://www.espn.com/nfl/players/profile?playerId=' + playerId);
+		if (context == 'ffl') {
+			$this.attr('href', 'http://www.espn.com/nfl/players/profile?playerId=' + playerId);
+		}
 	});
 });
 
