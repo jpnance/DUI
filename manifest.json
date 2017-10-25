@@ -7,7 +7,8 @@
 	"description": "Dynasty league stuff",
 
 	"permissions": [
-		"http://thedynastyleague.com/*"
+		"http://thedynastyleague.com/*",
+		"http://dev.thedynastyleague.com/*"
 	],
 
 	"background": {
@@ -18,7 +19,8 @@
 		{
 			"matches": [
 				"file://*/test/clubhouse.html",
-				"http://games.espn.com/ffl/*?*leagueId=122885*"
+				"http://games.espn.com/ffl/*?*leagueId=122885*",
+				"http://games.espn.com/fba/*?*leagueId=119576*"
 			],
 			"js": [
 				"jquery-3.1.1.min.js",
