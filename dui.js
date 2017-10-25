@@ -178,8 +178,14 @@ function onDynastyData(data) {
 						finalYear = endYear;
 
 						if (startYear == "FA") {
-							startYear = endYear;
-							finalYear = "RFA";
+							if (context == 'ffl') {
+								startYear = endYear;
+								finalYear = "RFA";
+							}
+							else if (context == 'fba') {
+								startYear = endYear;
+								finalYear = 'UFA';
+							}
 						}
 
 						inYear = currentYear - startYear + 1;
@@ -188,17 +194,27 @@ function onDynastyData(data) {
 						$yearsElement = $("<em>").text("(" + inYear + "/" + contractYears + ")");
 						$contractElement = $("<span>").text(finalYear + " ").append($yearsElement);
 
-						var tempSalary = salary;
-						var forYear = currentYear;
-						contractTip = "Relief: ";
+						if (context == 'ffl') {
+							var tempSalary = salary;
+							var forYear = currentYear;
+							contractTip = "Relief: ";
 
-						for (var i = inYear; i <= contractYears; i++) {
-							tempSalary = salary - Math.ceil(salary * (0.6 / Math.pow(2, i - 1)));
-							forYear = currentYear + i - inYear;
-							contractTip += "$" + tempSalary + " in " + forYear;
+							for (var i = inYear; i <= contractYears; i++) {
+								tempSalary = salary - Math.ceil(salary * (0.6 / Math.pow(2, i - 1)));
+								forYear = currentYear + i - inYear;
+								contractTip += "$" + tempSalary + " in " + forYear;
 
-							if (contractYears > i) {
-								contractTip += ", ";
+								if (contractYears > i) {
+									contractTip += ", ";
+								}
+							}
+						}
+						else {
+							if (endYear > startYear) {
+								contractTip = 'This player will be a restricted free agent at the end of his contract.';
+							}
+							else {
+								contractTip = 'This player will be an unrestricted free agent at the end of his contract.';
 							}
 						}
 					}
