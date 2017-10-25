@@ -7,7 +7,6 @@ var contextualUris = {
 		owners: 'http://games.espn.com/fba/leaguesetup/ownerinfo?leagueId=119576'
 	}
 };
-var fetching = null;
 
 var switchAdded = {
 	colors: false,
@@ -88,153 +87,157 @@ $(document).ready(function() {
 });
 
 function onDynastyData(data) {
-	if (data) {
-		//console.log("Setting up the player table data.");
+	var interval = setInterval(function() {
+		if (data && ($('span#playerTableTabSpinner').length == 0 || $('span#playerTableTabSpinner').css('display') == 'none')) {
+			clearInterval(interval);
 
-		var parser = new DOMParser();
-		var parsedXml = parser.parseFromString(data, "text/xml");
+			//console.log("Setting up the player table data.");
 
-		var currentYear = parseInt(parsedXml.getElementsByTagName("season")[0].firstChild.nodeValue);
+			var parser = new DOMParser();
+			var parsedXml = parser.parseFromString(data, "text/xml");
 
-		addColorSwitch();
-		setColors();
+			var currentYear = parseInt(parsedXml.getElementsByTagName("season")[0].firstChild.nodeValue);
 
-		addContractSwitch();
-		setContracts();
+			addColorSwitch();
+			setColors();
 
-		// set up maps of player IDs to salaries and player IDs to contracts
-		var draftedXml = parsedXml.getElementsByTagName("drafted");
-		if (draftedXml != null) {
-			var players = draftedXml[0].getElementsByTagName("player");
+			addContractSwitch();
+			setContracts();
 
-			var playerId, contract, salary, start, end;
+			// set up maps of player IDs to salaries and player IDs to contracts
+			var draftedXml = parsedXml.getElementsByTagName("drafted");
+			if (draftedXml != null) {
+				var players = draftedXml[0].getElementsByTagName("player");
 
-			for (var i = 0; i < players.length; i++) {
-				playerId = null;
-				contract = null;
-				salary = null;
-				start = null;
-				end = null;
+				var playerId, contract, salary, start, end;
 
-				playerIdNode = players[i].getElementsByTagName("id");
+				for (var i = 0; i < players.length; i++) {
+					playerId = null;
+					contract = null;
+					salary = null;
+					start = null;
+					end = null;
 
-				if (playerIdNode.length > 0) {
-					playerId = playerIdNode[0].firstChild.nodeValue;
+					playerIdNode = players[i].getElementsByTagName("id");
 
-					positionNode = players[i].getElementsByTagName("position");
-					contractNode = players[i].getElementsByTagName("contract");
+					if (playerIdNode.length > 0) {
+						playerId = playerIdNode[0].firstChild.nodeValue;
 
-					if (positionNode.length > 0) {
-						position = positionNode[0].firstChild.nodeValue;
-						positions[playerId] = position;
-					}
+						positionNode = players[i].getElementsByTagName("position");
+						contractNode = players[i].getElementsByTagName("contract");
 
-					if (contractNode.length > 0) {
-						salaryNode = contractNode[0].getElementsByTagName("salary");
-						startNode = contractNode[0].getElementsByTagName("start");
-						endNode = contractNode[0].getElementsByTagName("end");
+						if (positionNode.length > 0) {
+							position = positionNode[0].firstChild.nodeValue;
+							positions[playerId] = position;
+						}
 
-						if (salaryNode.length > 0) { salary = salaryNode[0].firstChild.nodeValue; }
-						if (startNode.length > 0) { start = startNode[0].firstChild.nodeValue; }
-						if (endNode.length > 0) { end = endNode[0].firstChild.nodeValue; }
+						if (contractNode.length > 0) {
+							salaryNode = contractNode[0].getElementsByTagName("salary");
+							startNode = contractNode[0].getElementsByTagName("start");
+							endNode = contractNode[0].getElementsByTagName("end");
 
-						salaries[playerId] = salary;
-						starts[playerId] = start;
-						ends[playerId] = end;
+							if (salaryNode.length > 0) { salary = salaryNode[0].firstChild.nodeValue; }
+							if (startNode.length > 0) { start = startNode[0].firstChild.nodeValue; }
+							if (endNode.length > 0) { end = endNode[0].firstChild.nodeValue; }
+
+							salaries[playerId] = salary;
+							starts[playerId] = start;
+							ends[playerId] = end;
+						}
 					}
 				}
 			}
-		}
 
-		$("*[id^=playername]").each(
-			function() {
-				var playerId = this.id.match(/playername_(\d+)/)[1];
-				var salaryDisplay, separatorString, contractDisplay, contractTip;
-				var $salaryElement, $contractElement;
-				var salary, term, finalYear, inYear, yearsLeft, contractTip;
+			$("*[id^=playername]").each(
+				function() {
+					var playerId = this.id.match(/playername_(\d+)/)[1];
+					var salaryDisplay, separatorString, contractDisplay, contractTip;
+					var $salaryElement, $contractElement;
+					var salary, term, finalYear, inYear, yearsLeft, contractTip;
 
-				if (salaries[playerId] > 0) {
-					$salaryElement = $("<strong>").text("$" + salaries[playerId]);
-					salary = salaries[playerId];
-				}
-				else {
-					$salaryElement = $("<em>").text('Free Agent');
-				}
+					if (salaries[playerId] > 0) {
+						$salaryElement = $("<strong>").text("$" + salaries[playerId]);
+						salary = salaries[playerId];
+					}
+					else {
+						$salaryElement = $("<em>").text('Free Agent');
+					}
 
-				if (salaries[playerId] == null || salaries[playerId] == 0) {
-					contractTip = "This player is currently a free agent.";
-				}
-				else {
-					separatorString = " - ";
-					contractTip = "";
+					if (salaries[playerId] == null || salaries[playerId] == 0) {
+						contractTip = "This player is currently a free agent.";
+					}
+					else {
+						separatorString = " - ";
+						contractTip = "";
 
-					if (ends[playerId] != "Not Yet Signed") {
-						var startYear = starts[playerId];
-						var endYear = ends[playerId];
+						if (ends[playerId] != "Not Yet Signed") {
+							var startYear = starts[playerId];
+							var endYear = ends[playerId];
 
-						finalYear = endYear;
+							finalYear = endYear;
 
-						if (startYear == "FA") {
+							if (startYear == "FA") {
+								if (context == 'ffl') {
+									startYear = endYear;
+									finalYear = "RFA";
+								}
+								else if (context == 'fba') {
+									startYear = endYear;
+									finalYear = 'UFA';
+								}
+							}
+
+							inYear = currentYear - startYear + 1;
+							contractYears = endYear - startYear + 1;
+
+							$yearsElement = $("<em>").text("(" + inYear + "/" + contractYears + ")");
+							$contractElement = $("<span>").text(finalYear + " ").append($yearsElement);
+
 							if (context == 'ffl') {
-								startYear = endYear;
-								finalYear = "RFA";
+								var tempSalary = salary;
+								var forYear = currentYear;
+								contractTip = "Relief: ";
+
+								for (var i = inYear; i <= contractYears; i++) {
+									tempSalary = salary - Math.ceil(salary * (0.6 / Math.pow(2, i - 1)));
+									forYear = currentYear + i - inYear;
+									contractTip += "$" + tempSalary + " in " + forYear;
+
+									if (contractYears > i) {
+										contractTip += ", ";
+									}
+								}
 							}
 							else if (context == 'fba') {
-								startYear = endYear;
-								finalYear = 'UFA';
-							}
-						}
-
-						inYear = currentYear - startYear + 1;
-						contractYears = endYear - startYear + 1;
-
-						$yearsElement = $("<em>").text("(" + inYear + "/" + contractYears + ")");
-						$contractElement = $("<span>").text(finalYear + " ").append($yearsElement);
-
-						if (context == 'ffl') {
-							var tempSalary = salary;
-							var forYear = currentYear;
-							contractTip = "Relief: ";
-
-							for (var i = inYear; i <= contractYears; i++) {
-								tempSalary = salary - Math.ceil(salary * (0.6 / Math.pow(2, i - 1)));
-								forYear = currentYear + i - inYear;
-								contractTip += "$" + tempSalary + " in " + forYear;
-
-								if (contractYears > i) {
-									contractTip += ", ";
+								if (endYear > startYear) {
+									contractTip = 'This player will be a restricted free agent at the end of his contract.';
+								}
+								else {
+									contractTip = 'This player will be an unrestricted free agent at the end of his contract.';
 								}
 							}
 						}
-						else if (context == 'fba') {
-							if (endYear > startYear) {
-								contractTip = 'This player will be a restricted free agent at the end of his contract.';
-							}
-							else {
-								contractTip = 'This player will be an unrestricted free agent at the end of his contract.';
-							}
+						else {
+							$contractElement = $("<em>").text("Not Yet Signed");
+							contractTip = "This player has not yet signed with his team.";
 						}
 					}
-					else {
-						$contractElement = $("<em>").text("Not Yet Signed");
-						contractTip = "This player has not yet signed with his team.";
-					}
-				}
 
-				$("#" + this.id).append(
-					$("<div />")
-					.append($salaryElement)
-					.append(separatorString)
-					.append($contractElement)
-					.attr("title", contractTip)
-					.addClass("contract")
-				);
-			}
-		);
-	}
-	else {
-		//console.log("Unable to fetch Dynasty League data.");
-	}
+					$("#" + this.id).append(
+						$("<div />")
+						.append($salaryElement)
+						.append(separatorString)
+						.append($contractElement)
+						.attr("title", contractTip)
+						.addClass("contract")
+					);
+				}
+			);
+		}
+		else {
+			//console.log("Unable to fetch Dynasty League data.");
+		}
+	}, 10);
 }
 
 function toggleShowColors() {
@@ -422,11 +425,5 @@ function syncContractSetting(response) {
 }
 
 function loadDynastyData() {
-	if (fetching) {
-		clearTimeout(fetching);
-	}
-
-	fetching = setTimeout(function() {
-		chrome.runtime.sendMessage({ "action": "fetchDynastyData", "context": context }, onDynastyData);
-	}, 1500);
+	chrome.runtime.sendMessage({ "action": "fetchDynastyData", "context": context }, onDynastyData);
 }
