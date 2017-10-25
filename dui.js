@@ -1,3 +1,13 @@
+var context = window.location.pathname.split('/')[1];
+var contextualUris = {
+	ffl: {
+		owners: 'http://games.espn.com/ffl/leaguesetup/ownerinfo?leagueId=122885'
+	},
+	fba: {
+		owners: 'http://games.espn.com/fba/leaguesetup/ownerinfo?leagueId=119576'
+	}
+};
+
 var switchAdded = {
 	colors: false,
 	contracts: false
@@ -36,22 +46,22 @@ var starts = new Array();
 var ends = new Array();
 
 var fetchDataForPathnames = [
-	"/ffl/boxscore",
-	"/ffl/boxscorefull",
-	"/ffl/boxscorequick",
-	"/ffl/boxscorescoring",
-	"/ffl/clubhouse",
-	"/ffl/dropplayers",
-	"/ffl/freeagency",
-	"/ffl/leaders",
-	"/ffl/leaguerosters",
-	"/ffl/rosterfix",
-	"/ffl/tools/keeperselect",
-	"/ffl/tools/lmtradereview",
-	"/ffl/tools/waiverorder",
-	"/ffl/trade",
-	"/ffl/tradereview",
-	"/ffl/watchlist"
+	'/' + context + '/boxscore',
+	'/' + context + '/boxscorefull',
+	'/' + context + '/boxscorequick',
+	'/' + context + '/boxscorescoring',
+	'/' + context + '/clubhouse',
+	'/' + context + '/dropplayers',
+	'/' + context + '/freeagency',
+	'/' + context + '/leaders',
+	'/' + context + '/leaguerosters',
+	'/' + context + '/rosterfix',
+	'/' + context + '/tools/keeperselect',
+	'/' + context + '/tools/lmtradereview',
+	'/' + context + '/tools/waiverorder',
+	'/' + context + '/trade',
+	'/' + context + '/tradereview',
+	'/' + context + '/watchlist'
 ];
 
 var showColors = getColorSetting();
